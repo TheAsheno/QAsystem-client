@@ -1,0 +1,152 @@
+/* pages/home/home.wxss */
+.v1 {
+  display: block;
+  position:absolute;
+  width: 100%;
+  background-attachment: fixed;
+  background-size: cover;
+  background-position: center;
+}
+.search-outer {
+  padding: 15rpx;
+}
+.search-inner {
+  text-align: center;
+  width: 720rpx;
+  height: 58rpx;
+  background: whitesmoke;
+  border: 5rpx solid DarkGray;
+  border-radius: 10rpx;
+  line-height: 48rpx;
+  box-sizing: border-box;
+}
+.search-inner > image {
+  height: 29rpx;
+  width: 29rpx;
+  vertical-align: middle;
+}
+.search-inner > text {
+  font-size: 24rpx;
+  color: #B1B1B1;
+}
+/* 菜单栏 */
+.nav-box {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin: 20rpx 0;
+  background-color: rgba(255, 255, 255, 0.5);
+  padding: 20rpx 0;
+}
+.nav {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1;
+}
+.nav image {
+  width: 40%;
+  background-color: white;
+  border-radius: 20rpx;
+  padding: 15rpx;
+}
+.nav text {
+  margin-top: 15rpx;
+  font-size: 25rpx;
+  font-weight: bolder;
+  font-family: PingFang SC;
+}
+
+/* 列表信息 */
+.box {
+  margin: 20rpx;
+}
+
+.list-title {
+  margin: 0 10rpx;
+  font-size: 30rpx;
+  font-weight: bold;
+}
+
+.level {
+  display: flex;
+  flex-direction: row;
+}
+
+.row {
+  margin-top: 20rpx;
+  background-color: #fff;
+  padding: 10rpx;
+  border-radius: 10rpx;
+  min-height: 200rpx;
+}
+
+.left-img {
+  width: 45%;
+}
+
+.left-img image {
+  width: 100%;
+  border-radius: 5rpx;
+  max-height: 200rpx;
+}
+
+.right-info {
+  width: 55%;
+  display: flex;
+  padding-left: 15rpx;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.right-title {
+  font-size: 30rpx;
+  display: -webkit-box;
+  word-break: break-all;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+.right-gray {
+  font-size: 28rpx;
+  color: #909399;
+  margin-top: 5rpx;
+  display: -webkit-box;
+  word-break: break-all;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+}
+
+.car-dot {
+  font-size: 20rpx;
+  background-color: #f29100;
+  margin-right: 10rpx;
+  padding: 2rpx 5rpx;
+  color: white;
+}
+
+.right-bot {
+  align-items: center;
+  justify-content: space-between;
+}
+
+.right-bot view:nth-child(1) {
+  font-size: 28rpx;
+}
+
+.right-bot view:nth-child(2) {
+  color: #fa3534;
+  font-size: 30rpx;
+  font-weight: bold;
+}
+
+.no-more {
+  text-align: center;
+  padding: 20rpx 0;
+  font-size: 26rpx;
+  color: #909399;
+}

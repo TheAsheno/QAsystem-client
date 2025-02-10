@@ -1,0 +1,34 @@
+<!--pages/register/register.wxml-->
+<view class="v1" style="height:{{clientHeight ? clientHeight + 'px' : 'auto'}}; background-image: url('/images/background.jpg');">
+  <view class="v2">
+    <view class="dltext">
+      <text style="font-size: 60rpx;">注册</text>
+      <radio-group class="select" bindchange="role">
+        <radio color="DimGray" value="student" checked="true" style="margin: auto">学生</radio>
+        <radio color="DimGray" value="teacher" style="margin: auto">老师</radio>
+      </radio-group>
+    </view>
+    <view class="useridCs inputPt" style="margin-top: 200rpx;">
+      <image src="../../images/userid.png" class="icon"></image>
+      <input placeholder="{{placeholderText}}" type="number" bindinput="userid" />
+    </view>
+    <view class="usernameCs inputPt" style="margin-top: 350rpx;">
+      <image src="../../images/username.png" class="icon"></image>
+      <input placeholder="姓名" bindinput="username" />
+    </view>
+    <view class="passwordCs inputPt" style="margin-top: 500rpx;">
+      <image src="../../images/password.png" class="icon"></image>
+      <input placeholder="密码"  bindinput="password" />
+    </view>
+    <view class="codeCs">
+      <input placeholder="验证码" bindinput="code" maxlength="4" />
+      <canvas canvas-id="canvas" bindtap='onChange'></canvas>
+    </view>
+    <view class="denglu">
+      <button class="btn-dl" type="primary" bindtap="goRegister">注册</button>
+    </view>
+  </view>
+</view>
+  
+
+

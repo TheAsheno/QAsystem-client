@@ -1,0 +1,21 @@
+<!--pages/quiz/quiz.wxml-->
+<view class="container">
+  <view class="chat-box">
+    <block wx:for="{{messages}}" wx:key="index">
+      <view class="message {{item.type}}">
+        <text>{{item.content}}</text>
+      </view>
+    </block>
+  </view>
+
+  <view class="input-area">
+    <textarea
+      class="chat-input" 
+      placeholder="请输入消息" 
+      bindinput="onInputChange" 
+      value="{{inputValue}}"
+      auto-height 
+    ></textarea>
+    <image class="send-icon" src="/images/up-arrow.png" bindtap="onSendMessage"></image>
+  </view>
+</view>

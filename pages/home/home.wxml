@@ -1,0 +1,51 @@
+<!--pages/home/home.wxml-->
+<view class="v1" style="background-image: url('/images/background.jpg');">
+  <view class="search-outer">
+    <view class="search-inner">
+      <image src="/images/search.png"></image>
+      <text> 搜索</text>
+    </view>
+  </view>
+  <swiper indicator-dots="true" autoplay="true" interval="2000" duration="500" indicator-color="gray" indicator-active-color="white" style="margin: 20rpx;">
+    <block wx:for="{{imgURLs}}" wx:for-index="index" wx:for-item="item" wx:key="*this">
+      <swiper-item>
+        <image src="{{item}}" mode="widthFix" style="width: 100%; border-radius: 20rpx;"></image>
+      </swiper-item>
+    </block>
+  </swiper>
+  <!-- 菜单栏 -->
+  <view class="nav-box">
+    <block wx:for="{{navList}}" wx:for-index="index" wx:for-item="item" wx:key="*this">
+      <view class="nav" bind:tap="navClick" data-item="{{item}}">
+        <image src="{{item.src}}" mode="widthFix"></image>
+        <text>{{item.title}}</text>
+      </view>
+    </block>
+  </view>
+  <!-- 列表数据 -->
+  <view class="box">
+    <view class="list-title">热门帖子</view>
+    <scroll-view scroll-y="true" show-scrollbar="{{false}}" enhanced="{{true}}">
+      <block wx:for="{{dataList}}" wx:for-index="index" wx:for-item="item" wx:key="*this">
+        <view class="level row" bind:tap="detailClick" data-item="{{item}}">
+          <view class="left-img">
+            <image src="{{item.coverUrl}}"></image>
+          </view>
+          <view class="right-info">
+            <view>
+              <view class="right-title">
+                <text class="car-dot">{{item.label}}</text>{{item.title}}
+              </view>
+              <view class="right-gray">{{item.date}}</view>
+            </view>
+            <view class="level right-bot">
+              <view>{{item.brand}}</view>
+              <view>{{item.price}} 元</view>
+            </view>
+          </view>
+        </view>
+      </block>
+      <view class="no-more">我是有底线的呦~</view>
+    </scroll-view>
+  </view>
+</view>
