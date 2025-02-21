@@ -1,0 +1,43 @@
+<!--pages/list/list.wxml-->
+<view class="v1">
+  <view class="filters-container">
+    <picker mode="selector" range="{{statusOptions}}" bindchange="onstatusChange">
+      <view class="picker-item">
+        <text>{{selectedstatus || '状态'}}▾</text>
+      </view>
+    </picker>
+    <picker mode="selector" range="{{sortOptions}}" bindchange="onsortChange">
+      <view class="picker-item">
+        <text>{{selectedsort || '排序'}}▾</text>
+      </view>
+    </picker>
+    <picker mode="selector" range="{{tagOptions}}" bindchange="ontagChange">
+      <view class="picker-item">
+        <text>{{selectedtag || '标签'}}▾</text>
+      </view>
+    </picker>
+  </view>
+  <view class="search-bar">
+    <input type="text" placeholder="搜索问题" bindinput="onSearchInput" value="{{searchQuery}}" />
+  </view>
+  <view class="list-box">
+    <view wx:for="{{filteredQuestions}}" class="question-item" wx:key="id" bindtap="onQuestionClick" data-id="{{item.questionid}}" data-item="{{item}}">
+        <view class="question-title">{{item.title}}</view>
+        <view class="question-info">
+          <text class="detail">🎓 {{item.Student.nickname}}</text>
+          <text class="detail">{{item.createdAt}}</text> 
+        </view>
+        <view class="question-info">
+          <view class="question-tags">
+            <block wx:for="{{item.tags}}" wx:key="tag">
+              <view class="tag-item">{{item}}</view>
+            </block>
+          </view>
+          <view class="question-status {{item.status === 'closed' ? 'solved' : 'unsolved'}}">
+            <text>{{item.status}}</text>
+          </view>
+        </view>
+    </view>
+  </view>
+  <image class="add-btn" src="/images/add.png" bindtap="onAddClick"></image>
+</view>

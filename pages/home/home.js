@@ -6,26 +6,30 @@ Page({
    */
   data: {
     user : {},
-    imgURLs: ['/images/background.jpg', '/images/background.jpg', '/images/background.jpg'],
+    imgURLs: ['/images/jnu-1.jpg', '/images/jnu-2.jpg', '/images/jnu-3.jpg'],
     navList: [{
         'src': '/images/course.png',
-        'title': '课程类别'
+        'title': '课程类别',
+        'page': '/pages/course/course'
       },
       {
         'src': '/images/knowledge.png',
-        'title': '知识库'
+        'title': '知识库',
+        'page': '/pages/knowledge/knowledge'
       },
       {
         'src': '/images/interact.png',
-        'title': '交流区'
+        'title': 'AI答疑',
+        'page': '/pages/chat/chat'
       },
       {
-        'src': '/images/userid.png',
-        'title': '菜单四'
+        'src': '/images/setting.png',
+        'title': '设置',
+        'page': '/pages/settings/settings'
       },
     ],
     dataList: [{
-        'coverUrl': '../../images/demo.jpg',
+        'coverUrl': '/images/demo.jpg',
         'label': '推荐',
         'title': '纯属示例数据呦~',
         'date': '2023年1月23日',
@@ -33,7 +37,7 @@ Page({
         'price': '2.98'
       },
       {
-        'coverUrl': '../../images/demo.jpg',
+        'coverUrl': '/images/demo.jpg',
         'label': '经典',
         'title': '点赞收藏加关注，下次还能找到呦~',
         'date': '2023年1月23日',
@@ -41,25 +45,44 @@ Page({
         'price': '1.98'
       },
       {
-        'coverUrl': '../../images/demo.jpg',
+        'coverUrl': '/images/demo.jpg',
         'label': '模板',
         'title': '不定期发布各种示例模板，进我主页，查看更多示例内容呦~',
         'date': '2023年1月23日',
         'brand': '关注',
         'price': '0.98'
       },
-    ]
+    ],
+    isTeacher: true
   },
-  // 菜单
   navClick(e) {
-    wx.showToast({
-      title: '您点击了【' + e.currentTarget.dataset.item.title + '】',
-    })
+    const item = e.currentTarget.dataset.item;
+    if (item.title === '知识库') {
+      if (this.data.user['role'] == 'teacher') {
+        wx.navigateTo({
+          url: item.page,
+        });
+      } else {
+        wx.showToast({
+          title: '您没有权限访问该部分',
+          icon: 'none',
+          duration: 2000
+        });
+      }
+    } else {
+      wx.navigateTo({
+        url: item.page,
+      });
+    }
   },
-  // 详情
   detailClick(e) {
     wx.showToast({
       title: e.currentTarget.dataset.item.title,
+    })
+  },
+  onSearch() {
+    wx.navigateTo({
+      url: '/pages/search/search',
     })
   },
   /**
@@ -73,7 +96,11 @@ Page({
       });
     } else {
       console.log('未找到用户数据');
+      wx.redirectTo({
+        url: '/pages/login/login',
+      })
     }
+    wx.hideHomeButton()
   },
 
   /**
@@ -87,7 +114,7 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow() {
-
+    
   },
 
   /**

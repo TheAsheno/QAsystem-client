@@ -1,43 +1,25 @@
 {
   "pages": [
+    "pages/login/login",
     "pages/home/home",
     "pages/index/index",
-    "pages/login/login",
     "pages/logs/logs",
     "pages/register/register",
-    "pages/user/user",
-    "pages/setting/setting",
-    "pages/quiz/quiz"
+    "pages/chat/chat",
+    "pages/search/search",
+    "pages/course/course",
+    "pages/knowledge/knowledge",
+    "pages/question/question",
+    "pages/list/list",
+    "pages/add/add",
+    "pages/settings/settings"
   ],
   "window": {
-    "navigationBarTextStyle": "black",
-    "navigationBarTitleText": "校园答疑",
-    "navigationBarBackgroundColor": "#59A5EF"
+    "navigationBarTextStyle": "white",
+    "navigationBarTitleText": "校园答疑"
   },
   "style": "v2",
   "componentFramework": "glass-easel",
   "sitemapLocation": "sitemap.json",
-  "lazyCodeLoading": "requiredComponents",
-  "tabBar": {
-    "list": [
-      {
-        "pagePath": "pages/home/home",
-        "text": "主页",
-        "iconPath": "/images/home.png",
-        "selectedIconPath": "/images/home_select.png"
-      },
-      {
-        "pagePath": "pages/quiz/quiz",
-        "text": "答疑",
-        "iconPath": "/images/quiz.png",
-        "selectedIconPath": "/images/quiz_select.png"
-      },
-      {
-        "pagePath": "pages/setting/setting",
-        "text": "设置",
-        "iconPath": "/images/setting.png",
-        "selectedIconPath": "/images/setting_select.png"
-      }
-    ]
-  }
+  "lazyCodeLoading": "requiredComponents"
 }

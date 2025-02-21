@@ -10,7 +10,7 @@ Page({
     username : '',
     code : '',
     text : '',
-    role: '',
+    role: 'student',
     placeholderText: "学号",
     clientHeight: ''
   },
@@ -140,7 +140,8 @@ Page({
         userid : this.data.userid,
         username : this.data.username,
         password : this.data.password,
-        role : this.data.role
+        role : this.data.role,
+        nickname: '匿名用户'
       }
       register(obj);
     }

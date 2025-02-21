@@ -1,27 +1,20 @@
 <!--pages/login/login.wxml-->
-<view class="v1" style="height:{{clientHeight ? clientHeight + 'px' : 'auto'}}; background-image: url('/images/background.jpg');">
-
- 
- <!-- v2父容器  子view使用绝对布局 -->
-   <view class="v2">
-     <view class="dltext" style="width: 232rpx; height: 92rpx; display: block; box-sizing: border-box; left: 0rpx; top: -2rpx">登录</view>
-  
-     <!-- 手机号 -->
-     <view class="useridCs">
-       <image src="../../images/userid.png" class="ac"></image>
-       <input placeholder="账号" type="number" bindinput="onuseridChange" />
-     </view>
-     <!-- 密码 -->
-     <view class=passwordCs">
-       <image src="../../images/password.png" class="ps"></image>
-       <input placeholder="密码" type="password" bindinput="onPasswordChange" />
-     </view>
-     <!-- 登录按钮 -->
-     <view class="denglu">
-       <button class="btn-dl" type="primary" bindtap="goAdmin">登录</button>
-       <view class="register" bindtap="goRegister">
-         去注册
-     </view>
-     </view>
-   </view>
- </view>
+<view class="v1" style="height:{{clientHeight ? clientHeight + 'px' : 'auto'}};">
+  <view class="v2">
+    <view class="dltext" style="width: 232rpx; height: 92rpx; display: block; box-sizing: border-box; left: 0rpx; top: -2rpx">登录</view>
+    <view class="inputPt" style="margin-top: 200rpx;">
+      <image src="../../images/userid.png" class="icon"></image>
+      <input placeholder="账号" type="number" bindinput="onuseridChange" />
+    </view>
+    <view class="inputPt" style="margin-top: 350rpx;">
+      <image src="../../images/password.png" class="icon"></image>
+      <input placeholder="密码" type="password" bindinput="onPasswordChange" />
+    </view>
+    <view class="denglu">
+      <button class="btn-dl" type="primary" bindtap="goAdmin">登录</button>
+      <view class="register" bindtap="goRegister">
+        去注册
+      </view>
+    </view>
+  </view>
+</view>

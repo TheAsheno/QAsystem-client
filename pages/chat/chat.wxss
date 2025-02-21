@@ -1,0 +1,102 @@
+/* pages/chat/chat.wxss */
+.container {
+  padding: 0 30rpx;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  overflow: hidden;
+  background-color: white;
+}
+.chat-box {
+  margin-bottom: 95px;
+  width: 100%;
+  flex: 1;
+  padding: 10px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+}
+.messages-container {
+  display: flex;
+  flex-direction: column;
+}
+.message {
+  margin-top: 5px;
+  padding: 8px;
+  border-radius: 10px;
+  max-width: 85%;
+  word-wrap: break-word; 
+}
+.message.user {
+  background-color: #d9e8f7;
+  align-self: flex-end;
+}
+.message.ai {
+  align-self: flex-start;
+}
+.attach {
+  display: flex;
+  justify-content: flex-start;
+  gap: 10px;
+  margin: 5px;
+}
+.attach.user {
+  justify-content: flex-end;
+}
+.attach-icon {
+  width: 18px;
+  height: 18px;
+}
+.loader {
+  text-align: center;
+  padding: 20px;
+  font-size: 20px;
+  color: #999;
+}
+.input-area {
+  gap: 10px;
+  padding: 8px;
+  position: fixed;
+  bottom: 10px;
+  left: 0;
+  width: 100%;
+  box-sizing: border-box;
+}
+.chat-input {
+  margin-bottom: 8px;
+  width: 94%;
+  padding: 10px;
+  border-radius: 20px;
+  background-color: #f1f1f1;
+}
+.interact {
+  font-size: 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.interact .function {
+  gap: 10px;
+  display: flex;
+}
+.interact .function > view {
+  color: #696969;
+  padding: 8px 12px;
+  border-radius: 20px;
+  background-color: #f1f1f1;
+}
+.btn-container {
+  gap: 10px;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+.interact .transfer-btn, 
+.interact .delete-btn {
+  width: 25px;
+  height: 25px;
+}
+.interact .send-btn {
+  width: 30px;
+  height: 30px;
+}

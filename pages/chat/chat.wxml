@@ -1,0 +1,44 @@
+<!--pages/chat/chat.wxml-->
+<view class="container">
+  <scroll-view
+  scroll-y
+  scroll-with-animation
+  scroll-into-view="{{'msg-' + (messages.length - 1)}}"
+  enhanced="{{true}}"
+  show-scrollbar="{{false}}"
+  class="chat-box">
+    <view class="messages-container">
+      <block wx:for="{{messages}}" wx:key="index">
+        <view id="msg-{{index}}" class="message {{item.type}}">
+          <text style="user-select: text;">{{item.content}}</text>
+        </view>
+        <view class="attach {{item.type}}">
+          <image class="attach-icon" data-index="{{index}}" src="/images/copy.png" bindtap="onCopy"></image>
+          <image class="attach-icon" data-index="{{index}}" data-type="{{item.type}}" src="/images/refresh.png" bindtap="{{isLoading ? '' : 'onRefresh'}}"></image>
+        </view>
+      </block>
+      <view wx:if="{{isLoading}}" class="loader">Loading...</view>
+    </view>
+  </scroll-view>
+
+  <view class="input-area">
+    <textarea
+      class="chat-input" 
+      placeholder="请输入消息" 
+      bindinput="onInputChange" 
+      value="{{inputValue}}"
+      auto-height 
+    ></textarea>
+    <view class="interact">
+      <view class="function">
+        <view>记录对话</view>
+        <view>记录对话</view>
+      </view>
+      <view class="btn-container">
+        <image class="delete-btn" src="/images/clear.png" bindtap="onDelete"></image>
+        <image class="transfer-btn" src="/images/transfer.png" bindtap="onTransfer"></image>
+        <image class="send-btn" src="{{sendButtonImage}}" bindtap="{{isLoading ? 'onAbort' : 'onSendMessage'}}"></image>
+      </view>
+    </view>
+  </view>
+</view>

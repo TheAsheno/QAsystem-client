@@ -1,0 +1,66 @@
+<!--pages/question/question.wxml-->
+<view class="container">
+  <view class="question-card">
+    <view class="user-info">
+      <image class="avatar" src="{{question.Student.avatar ? 'http://172.21.202.55:3000' + question.Student.avatar : '/images/avatar.png'}}"></image>
+      <view class="meta">
+        <text class="username">{{question.Student.nickname}}</text>
+        <text class="time">{{question.createdAt}}</text>
+      </view>
+    </view>
+    <view class="content">
+      <view class="title">{{question.title}}</view>
+      <view class="detail">{{question.content}}</view>
+      <view class="tags">
+        <block wx:for="{{question.tags}}" wx:key="index">
+          <text class="tag">{{item}}</text>
+        </block>
+      </view>
+      <block wx:for="{{question.images}}" wx:key="index">
+        <image src="http://172.21.202.55:3000{{item}}" mode="aspectFit" class="image"></image>
+      </block>
+    </view>
+  </view>
+  <view class="answer-list">
+    <view class="list-top">
+      <view class="count">共{{allReplies.length}}条回复</view>
+      <view class="only-btn {{only ? 'selected' : ''}}" bindtap="onOnlyClick">只看老师</view>
+    </view>
+    <block wx:for="{{allReplies}}" wx:key="index">
+      <view class="answer-card">
+        <view class="user-info">
+          <image class="avatar" src="{{item.Student.avatar ? 'http://172.21.202.55:3000' + item.Student.avatar : (item.Teacher.avatar ? 'http://172.21.202.55:3000' + item.Teacher.avatar : '/images/avatar.png')}}"></image>
+          <view class="meta">
+            <text class="username">{{item.Student ? '🎓 ' +item.Student.nickname : '✒️ ' + item.Teacher.username}}</text>
+            <text class="time">{{item.createdAt}}</text>
+          </view>
+        </view>
+        <view class="content">{{item.content}}</view>
+        <view class="actions">
+          <view class="like-btn {{item.isLiked ? 'liked' : ''}}" bindtap="toggleLike" data-id="{{item.replyid}}" data-like="{{item.like}}" data-status="{{item.isLiked}}">👍{{item.like}}
+          </view>
+        </view>
+        <block wx:for="{{item.images}}" wx:key="index">
+          <image src="http://172.21.202.55:3000{{item}}" mode="aspectFit" class="image"></image>
+        </block>
+      </view>
+    </block>
+  </view>
+  <view class="reply-box">
+    <textarea auto-height class="reply-input" placeholder="写下你的回答..." bindinput="bindInput" value="{{replyContent}}"></textarea>
+    <view class="interact">
+      <view class="image-wrapper">
+        <block wx:for="{{images}}" wx:key="index">
+          <view class="image-item">
+            <view class="image-thumbnail">图片{{index + 1}}</view>
+            <image class="delete-icon" src="/images/delete.png" bindtap="deleteImage" data-index="{{index}}" />
+          </view>
+        </block>
+      </view>
+      <view class="btn-container">
+        <image class="reply-btn" src="/images/transfer.png" bindtap="addImage"></image>
+        <image class="reply-btn" src="/images/send.png" bindtap="submitReply"></image>
+      </view>
+    </view>
+  </view>
+</view>

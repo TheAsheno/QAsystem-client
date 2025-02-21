@@ -3,13 +3,17 @@
 function login(obj) {
   return new Promise((resolve, reject) => {
     wx.request({
-      url: 'http://127.0.0.1:3000/api/users/login',
+      url: 'http://172.21.202.55:3000/api/users/login',
       method: 'POST',
       data: obj,
       success: (res => {
         if (res.statusCode === 200) {
+          const userData = {
+            ...res.data.user,
+            role: res.data.role
+        };
           wx.setStorageSync("token", res.data.token);
-          wx.setStorageSync('userData', res.data.user);
+          wx.setStorageSync('userData', userData);
           wx.redirectTo({
             url: '/pages/home/home'
           });

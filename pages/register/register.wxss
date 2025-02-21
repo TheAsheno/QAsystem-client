@@ -1,25 +1,22 @@
 /* pages/login/login.wxss */
-.v1{
+.v1 {
   display: block;
   position:absolute;
   width: 100%;
-  background-size: cover;
-  background-position: center;
+  background-color: white;
 }
-.v1 .v2{
+.v1 .v2 {
   position: relative;
   margin-top: 150rpx;
   left: 50rpx; 
   width: 650rpx;
   height: 1000rpx;
-  background-color: white;
-  opacity: 0.8;
   border-radius: 50rpx;
 }
 .v1 .v2 .dltext {
   margin-top: 50rpx;
   position: absolute;
-  margin-left: 50rpx;
+  margin-left: 65rpx;
   height: 92rpx;
   line-height: 92rpx;
   letter-spacing: 0;
@@ -37,11 +34,11 @@
   align-items: center;
   font-size: 30rpx;
 }
-.v1 .v2 .inputPt{
-  margin-left: 25rpx;
+.v1 .v2 .inputPt {
+  margin-left: 55rpx;
   position: absolute;
   display: flex;
-  width:600rpx ;
+  width:550rpx ;
   height: 90rpx ;
   background-color: rgb(250, 248, 248);
   border-radius: 50rpx;
@@ -52,27 +49,27 @@
   width: 45rpx;
   height: 45rpx;
 }
-.v1 .v2 .inputPt input{
+.v1 .v2 .inputPt input {
   width: 400rpx;
   font-size: 30rpx ;
   margin-top: 25rpx;
   margin-left: 30rpx;
 }
-.v1 .v2 .passwordCs .eye{
+.v1 .v2 .passwordCs .eye {
   margin-top: 5rpx;
   margin-left: 65rpx;
   width: 55rpx;
   height: 55rpx;
 }
-.v1 .v2 .codeCs{
+.v1 .v2 .codeCs {
   margin-top: 650rpx;
-  margin-left: 25rpx;
+  margin-left: 55rpx;
   position: absolute;
   display: flex;
-  width:600rpx ;
+  width: 550rpx ;
   height: 90rpx ;
 }
-.v1 .v2 .codeCs input{
+.v1 .v2 .codeCs > input {
   width: 150rpx;
   height: 50px;
   padding-left: 60rpx;
@@ -80,25 +77,26 @@
   background-color: rgb(250, 248, 248);
   border-radius: 50rpx;
 }
-.v1 .v2 .codeCs canvas{
+.v1 .v2 .codeCs > canvas {
   font-size: 30rpx ;
   margin-top: 15rpx;
   margin-left: 35rpx;
   width: 100px;
   height: 40px;
 }
-.v1 .v2 .denglu{
+.v1 .v2 .denglu {
   width: 600rpx;
   height: 80rpx;
   position: absolute;
   margin-top:815rpx;
   margin-left:25rpx;
 }
-.v1 .v2 .denglu button{
+.v1 .v2 .denglu > button{
   padding: 0rpx;
+  margin-left: 35px;
   line-height: 70rpx;
   font-size: 30rpx;
-  width: 100%;
+  width: 80%;
   height: 100%;
   border-radius: 50rpx;
 }

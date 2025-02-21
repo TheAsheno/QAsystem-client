@@ -20,10 +20,14 @@ Page({
     })
     const token = wx.getStorageSync("token");
     const userData = wx.getStorageSync("userData");
-    /*if (token && userData)
-      return wx.redirectTo({
-        url: "/pages/home/home"
-    });*/
+    if (token && userData) {
+      wx.showLoading({ title: '登录中...' })
+      setTimeout(() => {
+        wx.hideLoading()
+        wx.redirectTo({
+          url: "/pages/home/home"
+      });
+      }, 500)}
   },
   onuseridChange(e) {
     this.setData({

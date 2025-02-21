@@ -1,0 +1,39 @@
+<!--pages/add/add.wxml-->
+<view class="container">
+  <scroll-view class="form-container" scroll-y show-scrollbar="{{false}}" enhanced="{{true}}">
+    <view class="form-item">
+      <text class="label">问题标题</text>
+      <input class="input-title" placeholder="请输入问题标题（50字以内）" maxlength="50" bindinput="bindTitleInput" />
+    </view>
+    <view class="form-item">
+      <text class="label">详细描述</text>
+      <textarea class="input-content" placeholder="请详细描述您的问题..." bindinput="bindContentInput" auto-height />
+    </view>
+    <view class="form-item">
+      <text class="label">添加标签</text>
+      <scroll-view class="tags-container" scroll-x show-scrollbar="{{false}}" enhanced="{{true}}">
+        <block wx:for="{{tags}}" wx:key="index">
+          <view
+            class="tag {{item.status}}" bindtap="toggleTag" data-index="{{index}}">
+            {{item.name}}
+          </view>
+        </block>
+      </scroll-view>
+    </view>
+    <view class="form-item">
+      <text class="label">添加图片（最多3张）</text>
+      <view class="images-container">
+        <block wx:for="{{images}}" wx:key="index">
+          <view class="image-item">
+            <image class="preview-image" src="{{item}}" mode="aspectFill" />
+            <view class="delete-btn" bindtap="deleteImage" data-index="{{index}}">×</view>
+          </view>
+        </block>
+        <view wx:if="{{images.length < 3}}" class="upload-btn" bindtap="chooseImage">
+          <text class="plus">+</text>
+        </view>
+      </view>
+    </view>
+  </scroll-view>
+  <view class="submit-btn" bindtap="submitQuestion">发布问题</view>
+</view>
