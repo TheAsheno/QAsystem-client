@@ -12,6 +12,7 @@ function getModelResponse(obj) {
       },
       data: {
         question: obj.question,
+        history: obj.history,
         max_tokens: 100,
         temperature: 0.7,
       },

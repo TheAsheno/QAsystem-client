@@ -10,7 +10,19 @@ Page({
     messages: [],
     sendButtonImage: '/images/up-arrow-none.png',
     isLoading: false,
-    requestTask: null
+    requestTask: null,
+    courseList: [
+      { id: 1, name: '机器学习基础' },
+      { id: 2, name: '深度学习入门' },
+      { id: 3, name: '自然语言处理' }
+    ],
+    selectedCourse: null
+  },
+  bindCourseChange(e) {
+    const index = e.detail.value
+    this.setData({
+      selectedCourse: index
+    })
   },
   onInputChange(e) {
     const inputValue = e.detail.value;
@@ -71,7 +83,7 @@ Page({
     if (message && message.type === "tap")
       message = null;
     const inputMessage = message ?? this.data.inputValue?.trim();
-    const history = this.data.messages;
+    const history = this.data.messages.map(msg => ({ role: msg.type, content: msg.content }));
     if (!inputMessage) {
       return;
     }
@@ -100,7 +112,7 @@ Page({
           requestTask: null,
         });
       });
-  },
+  },  
   addMessage(content, type) {
     const newMessage = { content, type };
     this.setData({

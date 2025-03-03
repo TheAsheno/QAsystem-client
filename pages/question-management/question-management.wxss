@@ -1,0 +1,145 @@
+/* pages/question-management/question-management.wxss */
+page {
+  background-color: #f5f5f5;
+}
+.v1 {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.question-list {
+  flex: 1;
+  padding: 20rpx;
+  width: 90%;
+}
+.question-item {
+  display: flex;
+  flex-direction: column;
+  padding: 30rpx;
+  margin-top: 20px;
+  background-color: #fff;
+  border-radius: 12rpx;
+  box-shadow: 0 4rpx 12rpx rgba(0,0,0,0.1);
+}
+.question-info {
+  display: flex;
+  justify-content: space-between;
+  gap: 2px;
+}
+.question-title {
+  font-size: 32rpx;
+  font-weight: bold;
+  margin-bottom: 10rpx;
+}
+.question-course, .question-reply, .question-reply {
+  font-size: 12px;
+  color: #666;
+}
+.question-info-2 {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: flex-end;
+}
+.question-status {
+  font-size: 12px;
+  padding: 6px 12px;
+  border-radius: 20px;
+  text-align: center;
+}
+.question-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+.tag-item {
+  background-color: #f1f1f1;
+  padding: 5px 10px;
+  font-size: 10px;
+  color: #888888;
+}
+.question-btn {
+  display: flex;
+  gap: 10px;
+}
+.btn-1 {
+  width: 50px;
+  height: 25px;
+  font-size: 26rpx;
+  text-align: center;
+  line-height: 25px;
+  border-radius: 8rpx;
+}
+.delete-btn {
+  background-color: #ff4444;
+  color: white;
+}
+.backup-btn {
+  background-color: #f0f0f0;
+  color: #333;
+}
+.update-btn {
+  background-color: #07c160;
+  color: white;
+}
+.lock-btn {
+  background-color: #f0f0f0;
+  color: #333;
+}
+.add-btn {
+  margin: 20rpx;
+  background-color: #07c160;
+  color: white;
+  border-radius: 8rpx;
+}
+.modal-mask {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0,0,0,0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.modal-content {
+  width: 80%;
+  background: white;
+  border-radius: 16rpx;
+  padding: 40rpx;
+}
+.modal-header {
+  font-size: 34rpx;
+  font-weight: bold;
+  margin-bottom: 40rpx;
+}
+.input {
+  width: 94%;
+  border: 1rpx solid #ddd;
+  border-radius: 8rpx;
+  margin-bottom: 30rpx;
+  padding: 0 20rpx;
+  color: #707070;
+  line-height: 80rpx;
+}
+.modal-footer {
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+}
+.btn-2 {
+  width: 100px;
+  height: 30px;
+  text-align: center;
+  line-height: 30px;
+  border-radius: 8rpx;
+}
+.cancel {
+  background-color: #f0f0f0;
+  color: #333;
+}
+.confirm {
+  background-color: #07c160;
+  color: white;
+}

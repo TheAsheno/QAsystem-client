@@ -1,4 +1,9 @@
 // pages/home/home.js
+import { getCourses } from '../../api/course'
+import { getLists } from '../../api/list'
+import { getNotification } from '../../api/notification'
+const utils = require('../../utils/util.js');
+const app = getApp();
 Page({
 
   /**
@@ -28,32 +33,8 @@ Page({
         'page': '/pages/settings/settings'
       },
     ],
-    dataList: [{
-        'coverUrl': '/images/demo.jpg',
-        'label': '推荐',
-        'title': '纯属示例数据呦~',
-        'date': '2023年1月23日',
-        'brand': '点赞',
-        'price': '2.98'
-      },
-      {
-        'coverUrl': '/images/demo.jpg',
-        'label': '经典',
-        'title': '点赞收藏加关注，下次还能找到呦~',
-        'date': '2023年1月23日',
-        'brand': '收藏',
-        'price': '1.98'
-      },
-      {
-        'coverUrl': '/images/demo.jpg',
-        'label': '模板',
-        'title': '不定期发布各种示例模板，进我主页，查看更多示例内容呦~',
-        'date': '2023年1月23日',
-        'brand': '关注',
-        'price': '0.98'
-      },
-    ],
-    isTeacher: true
+    questions: [],
+    isNotice: false
   },
   navClick(e) {
     const item = e.currentTarget.dataset.item;
@@ -80,27 +61,52 @@ Page({
       title: e.currentTarget.dataset.item.title,
     })
   },
-  onSearch() {
+  noticeClick(e) {
     wx.navigateTo({
-      url: '/pages/search/search',
+      url: '/pages/notification/notification',
     })
+  },
+  onQuestionClick(e) {
+    const question = e.currentTarget.dataset.item;
+    const questionStr = encodeURIComponent(JSON.stringify(question));
+    wx.navigateTo({
+      url: `/pages/question/question?data=${questionStr}`,
+    });
   },
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad(options) {
-    const userData = wx.getStorageSync('userData');
-    if (userData) {
-      this.setData({
-        user: userData
-      });
-    } else {
-      console.log('未找到用户数据');
-      wx.redirectTo({
-        url: '/pages/login/login',
-      })
-    }
-    wx.hideHomeButton()
+    wx.hideHomeButton();
+    this.setData({
+      user: app.globalData.user
+    }, () => {
+      if (this.data.user.role == 'teacher') {
+        getCourses(this.data.user.userid, 'teacher')
+        .then(res => {
+          getLists(res.map(course => course.courseid), 'open')
+          .then(res => {
+            res.forEach(item => {
+              item.createdAt = utils.formatTime(new Date(item.createdAt));
+            })
+            this.setData({
+              questions: res
+            })
+          })
+        })
+      }
+      else {
+        getLists(null, 'open', this.data.user.userid)
+        .then(res => {
+          res.forEach(item => {
+            item.createdAt = utils.formatTime(new Date(item.createdAt));
+          })
+          this.setData({
+            questions: res
+          })
+        })
+      }
+    });
   },
 
   /**
@@ -114,7 +120,14 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow() {
-    
+    getNotification(this.data.user.userid, this.data.user.role, false)
+    .then(res => {
+      if (res.length > 0) {
+        this.setData({
+          isNotice: true
+        })
+      }
+    })
   },
 
   /**
@@ -135,7 +148,9 @@ Page({
    * 页面相关事件处理函数--监听用户下拉动作
    */
   onPullDownRefresh() {
-
+    this.onLoad();
+    this.onShow();
+    wx.stopPullDownRefresh();
   },
 
   /**

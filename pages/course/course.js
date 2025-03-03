@@ -1,5 +1,5 @@
 // pages/course/course.js
-import getCourses from '../../api/course';
+import { getCourses } from '../../api/course';
 Page({
 
   /**
@@ -14,7 +14,16 @@ Page({
     propertyOptions: [],
     allCourses: null,
     filteredCourses: [],
-    searchQuery: ''
+    searchQuery: '',
+    currentPage: 1,
+    pageSize: 5,
+    paginatedCourses: []
+  },
+  handlePageChange(e) {
+    const paginatedCourses = e.detail;
+    this.setData({
+      paginatedCourses: paginatedCourses
+    });
   },
   onCategoryChange(e) {
     const category = this.data.categoryOptions[e.detail.value];
@@ -22,29 +31,37 @@ Page({
       selectedCategory: category,
       propertyOptions: category === '通识教育课程' ? ['选修', '必修'] : ['基础选修', '基础必修', '专业选修', '专业必修'],
       selectedDepartment: "",
-      selectedProperty: ""
+      selectedProperty: "",
+      currentPage: 1
+    }, () => {
+      this.filterCourses();
     });
-    this.filterCourses();
   },
   onDepartmentChange(e) {
     const department = this.data.departmentOptions[e.detail.value];
     this.setData({
-      selectedDepartment: department
+      selectedDepartment: department,
+      currentPage: 1
+    }, () => {
+      this.filterCourses();
     });
-    this.filterCourses();
   },
   onPropertyChange(e) {
     const property = this.data.propertyOptions[e.detail.value];
     this.setData({
-      selectedProperty: property
+      selectedProperty: property,
+      currentPage: 1
+    }, () => {
+      this.filterCourses();
     });
-    this.filterCourses();
   },
   onSearchInput(e) {
     this.setData({
-      searchQuery: e.detail.value
+      searchQuery: e.detail.value,
+      currentPage: 1
+    }, () => {
+      this.filterCourses();
     });
-    this.filterCourses();
   },
   filterCourses() {
     const { selectedCategory, selectedDepartment, selectedProperty, searchQuery, allCourses } = this.data;
@@ -67,12 +84,10 @@ Page({
   },
   onCourseClick(e) {
     const courseId = e.currentTarget.dataset.id;
+    const coursename = e.currentTarget.dataset.name;
     wx.navigateTo({
-      url: `/pages/list/list?id=${courseId}`,
+      url: `/pages/list/list?courseId=${courseId}&coursename=${coursename}`,
     });
-  },
-  onAddFile(e) {
-
   },
   /**
    * 生命周期函数--监听页面加载
@@ -122,7 +137,8 @@ Page({
    * 页面相关事件处理函数--监听用户下拉动作
    */
   onPullDownRefresh() {
-
+    this.onLoad();
+    wx.stopPullDownRefresh();
   },
 
   /**

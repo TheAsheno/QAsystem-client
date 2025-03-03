@@ -1,0 +1,33 @@
+<!--pages/question-management/question-management.wxml-->
+<view class="v1">
+  <view class="question-list">
+    <block wx:for="{{questions}}" wx:key="index">
+      <view class="question-item">
+        <text class="question-title">{{item.title}}</text>
+        <view class="question-info">
+          <view style="display: flex; flex-direction: column;">
+            <text class="question-course">{{item.Course.coursename}}</text>
+            <text class="question-reply">共 {{item.replyCount}} 条回复</text>
+          </view>
+          <view class="question-btn">
+            <view wx:if="{{item.status != 'locked'}}" class="btn-1 lock-btn" bindtap="onChangeStatus" data-index="{{index}}">锁定</view>
+            <view class="btn-1 update-btn" bindtap="updateQuestion" data-index="{{index}}">修改</view>
+            <view class="btn-1 delete-btn" bindtap="deleteQuestion" data-index="{{index}}">删除</view>
+          </view>
+        </view>
+
+      </view>
+    </block>
+  </view>
+  <view wx:if="{{showModal}}" class="modal-mask">
+    <view class="modal-content">
+      <view class="modal-header">修改问题</view>
+      <input class="input" style="height: 80rpx;" placeholder="问题标题" data-field="title" value="{{title}}" bindinput="inputChange" />
+      <textarea class="input" placeholder="问题内容" data-field="content" value="{{content}}" bindinput="inputChange" />
+      <view class="modal-footer">
+        <view class="btn-2 cancel" bindtap="closeModal">取消</view>
+        <view class="btn-2 confirm" bindtap="confirmModel">确认</view>
+      </view>
+    </view>
+  </view>
+</view>

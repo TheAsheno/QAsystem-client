@@ -48,10 +48,21 @@
   height: 18px;
 }
 .loader {
-  text-align: center;
-  padding: 20px;
-  font-size: 20px;
-  color: #999;
+  display: flex;
+  justify-content: flex-start;
+  padding: 20rpx;
+}
+.loader-spinner {
+  width: 40rpx;
+  height: 40rpx;
+  border: 4rpx solid #f3f3f3;
+  border-top: 4rpx solid #409EFF;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }
 .input-area {
   gap: 10px;
@@ -84,6 +95,15 @@
   padding: 8px 12px;
   border-radius: 20px;
   background-color: #f1f1f1;
+}
+.course-picker {
+  display: flex;
+  gap: 5px;
+  align-items: center;
+}
+.icon-knowledge {
+  width: 15px;
+  height: 15px;
 }
 .btn-container {
   gap: 10px;

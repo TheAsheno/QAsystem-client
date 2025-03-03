@@ -1,6 +1,7 @@
 // pages/settings/settings.js
 import { uploadImages } from '../../api/question'
-import updateUser from '../../api/settings'
+import { updateUser, deleteImages } from '../../api/settings'
+const app = getApp();
 Page({
 
   /**
@@ -14,6 +15,7 @@ Page({
       count: 1,
       mediaType: ['image'],
       success: res => {
+        deleteImages(this.data.user.avatar);
         const avatar = res.tempFiles[0].tempFilePath;
         uploadImages([avatar])
         .then(uploadedImageUrls => {
@@ -35,9 +37,12 @@ Page({
       }
     })
   },
+  manageCourse(e) {
+    wx.navigateTo({
+      url: '/pages/course-management/course-management',
+    })
+  },
   changeNickname() {
-    if (this.data.user.role == 'teacher')
-      return;
     wx.showModal({
       title: '修改昵称',
       content: this.data.user.nickname,
@@ -66,6 +71,14 @@ Page({
       }
     })
   },
+  relateCourse(e) {
+    wx.navigateTo({ url: '/pages/question-management/question-management' })
+  },
+  userNotification(e) {
+    wx.navigateTo({
+      url: '/pages/notification/notification',
+    })
+  },
   navigateToFeedback() {
     wx.navigateTo({ url: '/pages/feedback/feedback' })
   },
@@ -89,9 +102,8 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad(options) {
-    const userData = wx.getStorageSync('userData');
     this.setData({
-      user: userData
+      user: app.globalData.user
     });
   },
 

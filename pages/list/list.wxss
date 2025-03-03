@@ -71,18 +71,22 @@
   color: #888888;
 }
 .question-status {
-  font-size: 14px;
+  font-size: 10px;
   padding: 6px 12px;
-  border-radius: 20px;
+  border-radius: 40px;
   text-align: center;
 }
-.question-status.solved {
-  background-color: #4CAF50;
-  color: #ffffff;
+.question-status.locked {
+  background-color: #f0f0f0;
+  color: #333;
 }
-.question-status.unsolved {
-  background-color: #ffeb3b;
-  color: #333333;
+.question-status.open {
+  background-color: #d457d4;
+  color: white;
+}
+.question-status.pending {
+  background-color: #42A5F5;
+  color: white;
 }
 .add-btn {
   position: fixed;

@@ -1,0 +1,43 @@
+<!-- pages/course-management/course-management.wxml -->
+<view class="v1">
+  <view class="course-list">
+    <block wx:for="{{courses}}" wx:key="index">
+      <view class="course-item">
+        <view class="course-info">
+          <text class="course-name">{{item.coursename}}</text>
+          <text class="course-assistant">助教：{{item.Student.username}}</text>
+          <text class="course-question">共 {{item.questionCount}} 个问题</text>
+        </view>
+        <view class="course-info-2">
+          <view class="course-affiliation">{{item.category}}-{{item.department}}-{{item.property}}</view>
+          <view class="course-btn">
+            <view class="btn-1 update-btn" bindtap="updateCourse" data-index="{{index}}">修改</view>
+            <view class="btn-1 backup-btn" bindtap="backupCourse" data-index="{{index}}">备份</view>
+            <view class="btn-1 delete-btn" bindtap="deleteCourse" data-index="{{index}}">删除</view>
+          </view>
+        </view>
+      </view>
+    </block>
+  </view>
+  <button class="add-btn" bindtap="addCourse">+ 添加课程</button>
+  <view wx:if="{{showModal}}" class="modal-mask">
+    <view class="modal-content">
+      <view class="modal-header">{{action == 'update' ? '修改' : '添加'}}课程</view>
+      <input class="input" placeholder="课程名称" data-field="coursename" value="{{coursename}}" bindinput="inputChange" />
+      <picker mode="selector" range="{{categoryOptions}}" bindchange="onCategoryChange">
+        <view class="input">{{selectedCategory || '课程类别'}}</view>
+      </picker>
+      <picker mode="selector" range="{{departmentOptions}}" bindchange="onDepartmentChange">
+        <view class="input">{{selectedDepartment || '排课单位'}}</view>
+      </picker>
+      <picker mode="selector" range="{{propertyOptions}}" bindchange="onPropertyChange">
+        <view class="input">{{selectedProperty || '课程性质'}}</view>
+      </picker>
+      <input class="input" placeholder="助教学号（可选）" data-field="assistant" value="{{assistant}}" bindinput="inputChange" />
+      <view class="modal-footer">
+        <view class="btn-2 cancel" bindtap="closeModal">取消</view>
+        <view class="btn-2 confirm" bindtap="confirmModel">确认</view>
+      </view>
+    </view>
+  </view>
+</view>

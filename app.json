@@ -6,17 +6,20 @@
     "pages/logs/logs",
     "pages/register/register",
     "pages/chat/chat",
-    "pages/search/search",
     "pages/course/course",
     "pages/knowledge/knowledge",
     "pages/question/question",
     "pages/list/list",
     "pages/add/add",
-    "pages/settings/settings"
+    "pages/settings/settings",
+    "pages/question-management/question-management",
+    "pages/course-management/course-management",
+    "pages/notification/notification"
   ],
   "window": {
     "navigationBarTextStyle": "white",
-    "navigationBarTitleText": "校园答疑"
+    "navigationBarTitleText": "校园答疑",
+    "enablePullDownRefresh": true
   },
   "style": "v2",
   "componentFramework": "glass-easel",

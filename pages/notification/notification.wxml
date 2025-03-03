@@ -1,0 +1,25 @@
+<!-- pages/notification/notification.wxml -->
+<view class="v1">  
+  <view class="header">
+    <text class="title">消息通知</text>
+    <view class="actions">
+      <text class="action-text" bindtap="markAllRead">全部已读</text>
+      <text class="action-text" bindtap="clearAll">清空</text>
+    </view>
+  </view>
+  <scroll-view class="notification-list" scroll-y bindscrolltolower="loadMore">
+    <block wx:for="{{notifications}}" wx:key="notificationid">
+      <view class="notification-item" data-index="{{index}}" bindtap="navigateToQuestion">
+        <view wx:if="{{!item.isRead}}" class="unread"></view>
+        <view class="content">
+          <text class="message">{{item.message}}</text>
+          <text class="time">{{item.createdAt}}</text>
+        </view>
+        <view class="actions">
+          <text class="delete-btn" catchtap="deleteOne" data-id="{{item.notificationid}}" data-index="{{index}}">×</text>
+        </view>
+      </view>
+    </block>
+    <view class="no-more">没有更多通知了</view>
+  </scroll-view>
+</view>

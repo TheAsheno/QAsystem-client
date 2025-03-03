@@ -1,1 +1,155 @@
-/* pages/knowledge/knowledge.wxss */
+/* pages/knowledge-base/knowledge-base.wxss */
+page {
+  background: #f5f8fb;
+}
+.container {
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+}
+.header {
+  display: flex;
+  gap: 10rpx;
+  padding: 0 20px 20px 20px;
+}
+.search-input {
+  flex: 8;
+  align-self: center;
+  padding: 8px 15px;
+  border-radius: 20px;
+  background-color: #f1f1f1;
+  font-size: 14px;
+}
+.upload-btn {
+  flex: 2;
+  background: #4CAF50;
+  color: white;
+  border-radius: 40rpx;
+  font-size: 28rpx;
+  padding: 8px 10px;
+}
+.file-box {
+  width: 100%;
+}
+.file-card {
+  background: white;
+  border-radius: 16rpx;
+  padding: 30rpx;
+  margin-bottom: 20rpx;
+  box-shadow: 0 4rpx 12rpx rgba(0,0,0,0.05);
+  margin: 0 20px 20px 20px;
+}
+.file-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20rpx;
+}
+.file-icon {
+  width: 60rpx;
+  height: 60rpx;
+  margin-right: 20rpx;
+}
+.file-name {
+  flex: 1;
+  font-size: 30rpx;
+  color: #333;
+}
+.file-actions {
+  display: flex;
+  gap: 20rpx;
+}
+.action-icon {
+  width: 40rpx;
+  height: 40rpx;
+}
+.file-meta {
+  display: flex;
+  justify-content: space-between;
+  font-size: 24rpx;
+  color: #666;
+  margin-bottom: 15rpx;
+}
+.related-knowledge {
+  border-top: 1rpx solid #eee;
+  display: flex;
+  justify-content: space-between;
+  align-items: center; 
+  padding-top: 8px;
+}
+.relation-course {
+  color: #999;
+  font-size: 25rpx;
+}
+.relation-list {
+  display: flex;
+  gap: 5px;
+}
+.link-icon {
+  width: 40rpx;
+  height: 40rpx;
+}
+.relation-tag {
+  display: inline-block;
+  background: #f0f0f0;
+  color: #4CAF50;
+  padding: 8rpx 16rpx;
+  border-radius: 40rpx;
+  font-size: 20rpx;
+}
+.upload-panel {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: white;
+  border-radius: 30rpx 30rpx 0 0;
+  padding: 30rpx;
+  box-shadow: 0 -4rpx 12rpx rgba(0,0,0,0.1);
+}
+.panel-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20rpx;
+}
+.panel-header image {
+  width: 40rpx;
+  height: 40rpx;
+}
+.upload-types {
+  display: flex;
+  justify-content: space-around;
+}
+.type-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.type-item image {
+  width: 80rpx;
+  height: 80rpx;
+  margin-bottom: 15rpx;
+}
+
+/* 知识图谱容器 */
+.kg-container {
+  height: 500rpx;
+  background: white;
+  border-radius: 16rpx;
+  margin-bottom: 30rpx;
+  position: relative;
+}
+
+.kg-canvas {
+  width: 100%;
+  height: 100%;
+}
+
+.kg-controls {
+  position: absolute;
+  right: 20rpx;
+  top: 20rpx;
+  display: flex;
+  flex-direction: column;
+  gap: 10rpx;
+}

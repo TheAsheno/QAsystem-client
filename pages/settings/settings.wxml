@@ -8,9 +8,24 @@
     </view>
   </view>
   <view class="settings-list">
-    <view class="list-item" bindtap="changeNickname">
+    <view class="list-item" wx:if="{{user.role == 'teacher'}}" bindtap="manageCourse">
+      <image class="icon" src="/images/icon-manage.png"></image>
+      <text>课程管理</text>
+      <image class="arrow" src="/images/arrow-right.png"></image>
+    </view>
+    <view class="list-item" wx:if="{{user.role == 'student'}}" bindtap="changeNickname">
       <image class="icon" src="/images/icon-nickname.png"></image>
       <text>修改昵称</text>
+      <image class="arrow" src="/images/arrow-right.png"></image>
+    </view>
+    <view class="list-item" wx:if="{{user.role == 'student'}}" bindtap="relateCourse">
+      <image class="icon" src="/images/icon-manage.png"></image>
+      <text>问题管理</text>
+      <image class="arrow" src="/images/arrow-right.png"></image>
+    </view>
+    <view class="list-item" bindtap="userNotification">
+      <image class="icon" src="/images/icon-notice.png"></image>
+      <text>用户通知</text>
       <image class="arrow" src="/images/arrow-right.png"></image>
     </view>
     <view class="list-item" bindtap="navigateToFeedback">

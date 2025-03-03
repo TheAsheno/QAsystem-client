@@ -2,11 +2,14 @@
 <view class="container">
   <view class="question-card">
     <view class="user-info">
-      <image class="avatar" src="{{question.Student.avatar ? 'http://172.21.202.55:3000' + question.Student.avatar : '/images/avatar.png'}}"></image>
-      <view class="meta">
-        <text class="username">{{question.Student.nickname}}</text>
-        <text class="time">{{question.createdAt}}</text>
+      <view style="display: flex;">
+        <image class="avatar" src="{{question.Student.avatar ? 'http://172.21.202.55:3000' + question.Student.avatar : '/images/avatar.png'}}"></image>
+        <view class="meta">
+          <text class="username">{{question.Student.nickname}}</text>
+          <text class="time">{{question.createdAt}}</text>
+        </view>
       </view>
+
     </view>
     <view class="content">
       <view class="title">{{question.title}}</view>
@@ -46,7 +49,15 @@
       </view>
     </block>
   </view>
-  <view class="reply-box">
+  <view wx:if="{{question.status == 'pending'}}" class="status-notice pending">
+    <text class="status-text">⏳ 问题将于24小时内锁定</text>
+    <text wx:if="{{question.studentid == user.userid}}" class="relieve-text" bindtap="lockQuestion">立即锁定</text>
+    <text wx:if="{{question.studentid == user.userid}}" class="relieve-text" bindtap="relieveQuestion">解除锁定</text>
+  </view>
+  <view wx:if="{{question.status == 'locked'}}" class="status-notice locked">
+    <text class="status-text">🔒 问题已锁定，不再接受新回复</text>
+  </view>
+  <view wx:if="{{question.status == 'open'}}" class="reply-box">
     <textarea auto-height class="reply-input" placeholder="写下你的回答..." bindinput="bindInput" value="{{replyContent}}"></textarea>
     <view class="interact">
       <view class="image-wrapper">
@@ -58,6 +69,7 @@
         </block>
       </view>
       <view class="btn-container">
+        <image wx:if="{{user.userid == question.Course.teacherid && question.status == 'open'}}" class="reply-btn" src="/images/solved.png" bindtap="questionSolved"></image>
         <image class="reply-btn" src="/images/transfer.png" bindtap="addImage"></image>
         <image class="reply-btn" src="/images/send.png" bindtap="submitReply"></image>
       </view>

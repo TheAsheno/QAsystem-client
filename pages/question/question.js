@@ -1,7 +1,9 @@
 // pages/question/question.js
 import { getReply, addReply, changeLike } from '../../api/reply'
-import { uploadImages } from '../../api/question'
+import { uploadImages, updateQuestion } from '../../api/question'
+import { sendNotification } from '../../api/notification'
 const utils = require('../../utils/util.js');
+const app = getApp();
 Page({
 
   /**
@@ -34,11 +36,10 @@ Page({
     getReply(this.data.question.questionid)
     .then(res => {
       res.forEach(item => {
-        item.images = JSON.parse(item.images);
         item.createdAt = utils.formatTime(new Date(item.createdAt));
         item.isLiked = false; 
       });
-      const filteredReplies = only ? res.filter(reply => reply.sendertype === 'teacher') : res;  
+      const filteredReplies = only ? res.filter(reply => reply.role === 'teacher') : res;  
       this.setData({
         only: only,
         allReplies: filteredReplies
@@ -47,6 +48,81 @@ Page({
   },
   bindInput(e) {
     this.setData({ replyContent: e.detail.value })
+  },
+  questionSolved(e) {
+    wx.showModal({
+      title: '锁定问题',
+      content: '该问题将会进入待锁定状态',
+      complete: (res) => {
+        if (res.confirm) {
+          let obj = {
+            status: 'pending',
+            pendingTime: new Date()
+          }
+          updateQuestion(obj, this.data.question.questionid)
+          .then(res => {
+            this.data.question.status = 'pending';
+            this.setData({
+              question: this.data.question
+            })
+            let obj = {
+              receiverid: this.data.question.studentid,
+              role: 'student',
+              questionid: this.data.question.questionid,
+              message: `您的问题《${this.data.question.title}》将于24小时后锁定`
+            }
+            sendNotification(obj);
+          })
+        }
+      }
+    })
+  },
+  lockQuestion(e) {
+    wx.showModal({
+      title: '立即锁定',
+      content: '该问题将进入锁定状态',
+      complete: (res) => {
+        if (res.confirm) {
+          let obj = {
+            status: 'locked'
+          }
+          updateQuestion(obj, this.data.question.questionid)
+          .then(res => {
+            this.data.question.status = 'locked';
+            this.setData({
+              question: this.data.question
+            })
+          })
+        }
+      }
+    })
+  },
+  relieveQuestion(e) {
+    wx.showModal({
+      title: '解除锁定',
+      content: '该问题将进入开放状态',
+      complete: (res) => {
+        if (res.confirm) {
+          let obj = {
+            status: 'open'
+          }
+          updateQuestion(obj, this.data.question.questionid)
+          .then(res => {
+            this.data.question.status = 'open';
+            this.setData({
+              question: this.data.question
+            })
+            let obj = {
+              receiverid: this.data.question.Course.teacherid,
+              role: 'teacher',
+              questionid: this.data.question.questionid,
+              message: `问题《${this.data.question.title}》已解除锁定并重新开放`
+            }
+            sendNotification(obj);
+          })
+        }
+      }
+    })
   },
   addImage() {
     if (this.data.images.length >= 3) {
@@ -69,7 +145,7 @@ Page({
   },
   deleteImage(e) {
     const index = e.currentTarget.dataset.index;
-    const newImages = this.data.images.filter((_, i) => i !== index);  // 删除对应图片
+    const newImages = this.data.images.filter((_, i) => i !== index);
     this.setData({ images: newImages });
   },
   submitReply() {
@@ -83,24 +159,17 @@ Page({
       const obj = {
         questionid: question.questionid,
         content: replyContent,
-        sendertype: user.role,
+        role: user.role,
         senderid: user.userid,
         like: 0,
         images: JSON.stringify(uploadedImageUrls),
       };
       wx.showLoading({ title: '提交中...' });
       addReply(obj)
-      .then((res) => {/*
-        const newReply = {
-          ...res,
-          createdAt: utils.formatTime(new Date(res.createdAt)),
-          isLiked: false,
-          images: JSON.parse(res.images)
-        };*/
+      .then((res) => {
         getReply(this.data.question.questionid)
         .then(res => {
           res.forEach(item => {
-            item.images = JSON.parse(item.images);
             item.createdAt = utils.formatTime(new Date(item.createdAt));
             item.isLiked = false; 
           });
@@ -111,9 +180,15 @@ Page({
           })
         })
         wx.hideLoading();
-      })
-      .catch(err => {
-        wx.hideLoading();
+        if (this.data.question.studentid != this.data.user.userid) {
+          let obj = {
+            receiverid: this.data.question.studentid,
+            role: 'student',
+            questionid: this.data.question.questionid,
+            message: `您的问题《${this.data.question.title}》收到了新的回复`
+          }
+          sendNotification(obj);
+        }
       })
     })
   },
@@ -121,16 +196,14 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad(options) {
-    const userData = wx.getStorageSync('userData');
     const question = JSON.parse(decodeURIComponent(options.data));
     this.setData({ 
       question: question,
-      user: userData
+      user: app.globalData.user
      });
     getReply(question.questionid)
     .then(res => {
       res.forEach(item => {
-        item.images = JSON.parse(item.images);
         item.createdAt = utils.formatTime(new Date(item.createdAt));
         item.isLiked = false; 
       });
@@ -172,7 +245,8 @@ Page({
    * 页面相关事件处理函数--监听用户下拉动作
    */
   onPullDownRefresh() {
-
+    this.onLoad();
+    wx.stopPullDownRefresh();
   },
 
   /**

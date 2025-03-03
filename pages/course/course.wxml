@@ -18,15 +18,20 @@
     </picker>
   </view>
   <view class="search-bar">
-    <input type="text" placeholder="搜索课程" bindinput="onSearchInput" value="{{searchQuery}}"/>
+    <input type="text" placeholder="搜索课程" bindinput="onSearchInput" value="{{searchQuery}}" />
   </view>
   <view class="course-box">
-    <view wx:for="{{filteredCourses}}" wx:key="id" class="course-item" bindtap="onCourseClick" data-id="{{item.courseid}}">
+    <view wx:for="{{paginatedCourses}}" class="course-item" bindtap="onCourseClick" data-id="{{item.courseid}}" data-name="{{item.coursename}}">
       <view class="course-name">{{item.coursename}}</view>
       <view class="course-info">
-          <text class="course-teacher">✒️ {{item.Teacher.username}}</text>
-          <text class="course-belong">{{item.department}}-{{item.property}}</text>
+        <text class="course-teacher">✒️ {{item.Teacher.username}}</text>
+        <text class="course-belong">{{item.department}}-{{item.property}}</text>
       </view>
     </view>
   </view>
+  <pagination
+    filteredList="{{filteredCourses}}"
+    pageSize="{{pageSize}}"
+    currentPage="{{currentPage}}"
+    bind:pageChange="handlePageChange" />
 </view>

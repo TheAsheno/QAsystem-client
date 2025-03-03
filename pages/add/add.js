@@ -1,5 +1,7 @@
 // pages/add/add.js
 import { addQuestion, uploadImages } from '../../api/question'
+import { sendNotification } from '../../api/notification'
+const app = getApp();
 Page({
 
   /**
@@ -26,7 +28,8 @@ Page({
     }],
     images: [],
     user: {},
-    courseId: ''
+    courseId: '',
+    coursename: ''
   },
   bindTitleInput(e) {
     this.setData({ title: e.detail.value })
@@ -84,7 +87,7 @@ Page({
     const { title, content, user, courseId, images } = this.data;
     uploadImages(images)
     .then(uploadedImageUrls => {
-      const obj = {
+      let obj = {
         title: title,
         content: content,
         studentid: user.userid,
@@ -96,8 +99,17 @@ Page({
       wx.showLoading({ title: '提交中...' });
       addQuestion(obj)
       .then((res) => {
-        wx.hideLoading();
-        wx.navigateBack();
+        let obj = {
+          receiverid: this.data.courseId,
+          role: 'teacher',
+          questionid: res.questionid,
+          message: `学生在课程《${this.data.coursename}》中发布了一个新问题: "${res.title}"`
+        }
+        sendNotification(obj)
+        .then(() => {
+          wx.hideLoading();
+          wx.navigateBack();
+        });
       })
       .catch((err) => {
         wx.hideLoading();
@@ -108,10 +120,10 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad(options) {
-    const userData = wx.getStorageSync('userData');
     this.setData({ 
-      user: userData,
-      courseId: options.id
+      user: app.globalData.user,
+      courseId: options.courseId,
+      coursename: options.coursename
      });
   },
 

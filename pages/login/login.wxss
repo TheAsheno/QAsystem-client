@@ -72,4 +72,5 @@
   margin: 30rpx;
   color: rgb(84, 206, 247);
   text-align: right;
+  text-decoration: underline;
 }

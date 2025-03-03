@@ -1,26 +1,39 @@
 // pages/list/list.js
-import getLists from '../../api/list'
+import { getLists } from '../../api/list'
 const utils = require('../../utils/util.js');
+const app = getApp();
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
+    user: {},
     courseId: '',
+    coursename: '',
     searchQuery: '',
     allQuestions: [],
     filteredQuestions: [],
-    statusOptions: ['open', 'closed'],
+    statusOptions: ['open', 'locked', 'pending'],
     selectedstatus: '',
     sortOptions: ['最新', '最旧'],
     selectedsort: '最新',
     tagOptions: ['编程问题', '作业疑问', '概念理解', '考试相关', '其他'],
-    selectedtag: ''
+    selectedtag: '',
+    currentPage: 1,
+    pageSize: 5,
+    paginatedQuestions: []
+  },
+  handlePageChange(e) {
+    const paginatedQuestions = e.detail;
+    this.setData({
+      paginatedQuestions: paginatedQuestions
+    });
   },
   onSearchInput(e) {
     this.setData({
-      searchQuery: e.detail.value
+      searchQuery: e.detail.value,
+      currentPage: 1
     });
     this.filterQuestions();
   },
@@ -51,6 +64,7 @@ Page({
     const status = this.data.statusOptions[e.detail.value];
     this.setData({
       selectedstatus: status,
+      currentPage: 1
     });
     this.filterQuestions();
   },
@@ -58,6 +72,7 @@ Page({
     const sort = this.data.sortOptions[e.detail.value];
     this.setData({
       selectedsort: sort,
+      currentPage: 1
     });
     this.filterQuestions();
   },
@@ -65,12 +80,13 @@ Page({
     const tag = this.data.tagOptions[e.detail.value];
     this.setData({
       selectedtag: tag,
+      currentPage: 1
     });
     this.filterQuestions();
   },
   onAddClick(e) {
     wx.navigateTo({
-      url: `/pages/add/add?id=${this.data.courseId}`,
+      url: `/pages/add/add?courseId=${this.data.courseId}&coursename=${this.data.coursename}`,
     })
   },
   onQuestionClick(e) {
@@ -84,7 +100,11 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad(options) {
-    this.setData({ courseId: options.id });
+    this.setData({ 
+      user: app.globalData.user,
+      courseId: options.courseId,
+      coursename: options.coursename
+    });
   },
 
   /**
@@ -98,11 +118,9 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow() {
-    getLists(this.data.courseId)
+    getLists([this.data.courseId])
     .then(res => {
       res.forEach(item => {
-        item.tags = JSON.parse(item.tags);
-        item.images = JSON.parse(item.images);
         item.createdAt = utils.formatTime(new Date(item.createdAt));
       });
       this.setData({
@@ -131,7 +149,8 @@ Page({
    * 页面相关事件处理函数--监听用户下拉动作
    */
   onPullDownRefresh() {
-
+    this.onShow();
+    wx.stopPullDownRefresh();
   },
 
   /**

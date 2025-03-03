@@ -1,15 +1,11 @@
-const formatTime = date => {
-  const year = date.getFullYear();
-  const month = date.getMonth() + 1;
-  const day = date.getDate();
-  const hour = date.getHours();
-  const minute = date.getMinutes();
-  return `${[year, month, day].map(formatNumber).join('-')} ${[hour, minute].map(formatNumber).join(':')}`;
-}
-
-const formatNumber = n => {
-  n = n.toString();
-  return n[1] ? n : `0${n}`;
+const formatTime = (dateStr) => {
+  const date = new Date(dateStr)
+  const now = new Date()
+  const diff = now - date
+  if (diff < 60000) return '刚刚'
+  if (diff < 3600000) return `${Math.floor(diff/60000)}分钟前`
+  if (diff < 86400000) return `${Math.floor(diff/3600000)}小时前`
+  return `${date.getMonth()+1}-${date.getDate()} ${date.getHours()}:${date.getMinutes().toString().padStart(2, '0')}`
 }
 
 module.exports = {

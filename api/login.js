@@ -14,6 +14,8 @@ function login(obj) {
         };
           wx.setStorageSync("token", res.data.token);
           wx.setStorageSync('userData', userData);
+          getApp().globalData.token = res.data.token;
+          getApp().globalData.user = userData;
           wx.redirectTo({
             url: '/pages/home/home'
           });

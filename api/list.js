@@ -1,9 +1,26 @@
 // api/list.js
 
-function getLists(courseId) {
+function getLists(courseIds, status, studentid, questionid) {
   return new Promise((resolve, reject) => {
+    let url = 'http://172.21.202.55:3000/api/questions';
+    const params = [];
+    if (courseIds) {
+      params.push(`courseIds=${courseIds.join(',')}`);
+    }
+    if (status) {
+      params.push(`status=${status}`);
+    }
+    if (studentid) {
+      params.push(`studentid=${studentid}`);
+    }
+    if (questionid) {
+      params.push(`questionid=${questionid}`);
+    }
+    if (params.length > 0) {
+      url += `?${params.join('&')}`;
+    }
      wx.request({
-      url: `http://172.21.202.55:3000/api/questions?courseid=${courseId}`,
+      url: url,
       method: 'GET',
       success: (res) => {
         if (res.statusCode === 200) {
@@ -27,4 +44,4 @@ function getLists(courseId) {
   });
 }
 
-export default getLists;
+export { getLists };

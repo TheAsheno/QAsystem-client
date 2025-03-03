@@ -18,16 +18,6 @@ Page({
     this.setData({
       clientHeight: wx.getWindowInfo().windowHeight
     })
-    const token = wx.getStorageSync("token");
-    const userData = wx.getStorageSync("userData");
-    if (token && userData) {
-      wx.showLoading({ title: '登录中...' })
-      setTimeout(() => {
-        wx.hideLoading()
-        wx.redirectTo({
-          url: "/pages/home/home"
-      });
-      }, 500)}
   },
   onuseridChange(e) {
     this.setData({
@@ -39,9 +29,7 @@ Page({
       password: e.detail.value
     })
   },
-  // 登录事件
   goAdmin() {
-    let flag = false
     if (this.data.userid === '') {
       wx.showToast({
         icon: 'none',

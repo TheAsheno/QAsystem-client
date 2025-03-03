@@ -1,0 +1,28 @@
+/* components/pagination/pagination.wxss */
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 30rpx 0;
+  padding: 20rpx;
+}
+.page-btn {
+  min-width: 160rpx;
+  height: 70rpx;
+  margin: 0 20rpx;
+  font-size: 28rpx;
+  background: #f8f9fa;
+  border: 1rpx solid #dee2e6;
+  border-radius: 8rpx;
+  transition: all 0.2s;
+}
+.page-btn[disabled] {
+  opacity: 0.6;
+  background: #e9ecef;
+  color: #adb5bd;
+}
+.page-info {
+  font-size: 30rpx;
+  color: #495057;
+  margin: 0 30rpx;
+}

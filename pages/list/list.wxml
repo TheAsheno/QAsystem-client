@@ -21,7 +21,7 @@
     <input type="text" placeholder="搜索问题" bindinput="onSearchInput" value="{{searchQuery}}" />
   </view>
   <view class="list-box">
-    <view wx:for="{{filteredQuestions}}" class="question-item" wx:key="id" bindtap="onQuestionClick" data-id="{{item.questionid}}" data-item="{{item}}">
+    <view wx:for="{{paginatedQuestions}}" class="question-item" wx:key="id" bindtap="onQuestionClick" data-item="{{item}}">
         <view class="question-title">{{item.title}}</view>
         <view class="question-info">
           <text class="detail">🎓 {{item.Student.nickname}}</text>
@@ -33,11 +33,16 @@
               <view class="tag-item">{{item}}</view>
             </block>
           </view>
-          <view class="question-status {{item.status === 'closed' ? 'solved' : 'unsolved'}}">
+          <view class="question-status {{item.status == 'locked' ? 'locked' : item.status == 'pending' ? 'pending' : 'open'}}">
             <text>{{item.status}}</text>
           </view>
         </view>
     </view>
   </view>
-  <image class="add-btn" src="/images/add.png" bindtap="onAddClick"></image>
+  <image wx:if="{{user.role == 'student'}}" class="add-btn" src="/images/add.png" bindtap="onAddClick"></image>
+  <pagination
+    filteredList="{{filteredQuestions}}"
+    pageSize="{{pageSize}}"
+    currentPage="{{currentPage}}"
+    bind:pageChange="handlePageChange" />
 </view>

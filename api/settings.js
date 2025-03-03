@@ -37,4 +37,26 @@ function updateUser(obj) {
   });
 }
 
-export default updateUser;
+function deleteImages(filePath) {
+  return new Promise((resolve, reject) => {
+    wx.request({
+      url: 'http://172.21.202.55:3000/api/upload',
+      method: 'DELETE',
+      data: { filePath: filePath },
+      success: (res) => {
+        if (res.statusCode === 200) {
+          resolve(res.data);
+        } else {
+          console.error('修改失败:', res.data.message);
+          reject(res.data.message);
+        }
+      },
+      fail: (err) => {
+        console.error('请求失败', err);
+        reject(err);
+      }
+    });
+  });
+}
+
+export { updateUser, deleteImages };
