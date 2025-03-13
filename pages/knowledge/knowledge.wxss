@@ -131,6 +131,65 @@ page {
   margin-bottom: 15rpx;
 }
 
+.modal-mask {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0,0,0,0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.modal-content {
+  width: 80%;
+  background: white;
+  border-radius: 16rpx;
+  padding: 40rpx;
+}
+.modal-header {
+  font-size: 34rpx;
+  font-weight: bold;
+  margin-bottom: 40rpx;
+}
+.input {
+  display: flex;
+  height: 80rpx;
+  border: 1rpx solid #ddd;
+  border-radius: 8rpx;
+  margin-bottom: 30rpx;
+  padding: 0 20rpx;
+  color: #707070;
+  line-height: 80rpx;
+}
+.prompt {
+  font-size: 12px;
+  margin-left: 20rpx;
+  margin-bottom: 30rpx;
+  color: #707070;
+}
+.modal-footer {
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+}
+.btn-2 {
+  width: 100px;
+  height: 30px;
+  text-align: center;
+  line-height: 30px;
+  border-radius: 8rpx;
+}
+.cancel {
+  background-color: #f0f0f0;
+  color: #333;
+}
+.confirm {
+  background-color: #07c160;
+  color: white;
+}
+
 /* 知识图谱容器 */
 .kg-container {
   height: 500rpx;

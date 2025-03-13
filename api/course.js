@@ -1,8 +1,8 @@
 // api/course.js
-
+import config from '../utils/config'
 function getCourses(userId, role) {
   return new Promise((resolve, reject) => {
-    let url = 'http://172.21.202.55:3000/api/courses';
+    let url = config.url_sql + '/api/courses';
     const params = [];
     if (role) {
       params.push(`${role}id=${userId}`);
@@ -38,7 +38,7 @@ function getCourses(userId, role) {
 function deleteCourse(courseId) {
   return new Promise((resolve, reject) => {
     wx.request({
-      url: `http://172.21.202.55:3000/api/courses/${courseId}`,
+      url: config.url_sql +`/api/courses/${courseId}`,
       method: 'DELETE',
       success: (res) => {
         if (res.statusCode === 200) {
@@ -65,7 +65,7 @@ function deleteCourse(courseId) {
 function addCourse(obj) {
   return new Promise((resolve, reject) => {
     wx.request({
-      url: 'http://172.21.202.55:3000/api/courses',
+      url: config.url_sql + '/api/courses',
       method: 'POST',
       data: obj,
       success: (res) => {
@@ -97,7 +97,7 @@ function addCourse(obj) {
 function updateCourse(obj, courseId) {
   return new Promise((resolve, reject) => {
     wx.request({
-      url: `http://172.21.202.55:3000/api/courses/${courseId}`,
+      url: config.url_sql + `/api/courses/${courseId}`,
       method: 'PUT',
       data: obj,
       success: (res) => {

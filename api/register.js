@@ -1,9 +1,9 @@
 // api/register.js
-
+import config from '../utils/config'
 function register(obj) {
   return new Promise((resolve, reject) => {
     wx.request({
-      url: 'http://127.0.0.1:3000/api/users/register',  // 替换为你自己的注册接口 URL
+      url: config.url_sql + '/api/users/register',  // 替换为你自己的注册接口 URL
       method: 'POST',
       data: obj,
       success: (res => {

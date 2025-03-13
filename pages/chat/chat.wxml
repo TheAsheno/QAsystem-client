@@ -8,7 +8,16 @@
         </view>
         <view class="attach {{item.type}}">
           <image class="attach-icon" data-index="{{index}}" src="/images/copy.png" bindtap="onCopy"></image>
+          <image wx:if="{{item.type == 'ai'}}" class="attach-icon" data-index="{{index}}" src="/images/link.png" bindtap="onQuote"></image>
           <image class="attach-icon" data-index="{{index}}" data-type="{{item.type}}" src="/images/refresh.png" bindtap="{{isLoading ? '' : 'onRefresh'}}"></image>
+        </view>
+        <view class="context-modal" wx:if="{{isQuote}}" catchtap="closeContext">
+          <view class="context-content">
+            <text class="context-title">参考内容：</text>
+            <scroll-view scroll-y class="context-text">
+              {{item.context}}
+            </scroll-view>
+          </view>
         </view>
       </block>
       <view wx:if="{{isLoading}}" class="loader">
@@ -16,6 +25,7 @@
       </view>
     </view>
   </scroll-view>
+
   <view class="input-area">
     <textarea class="chat-input" placeholder="请输入消息" bindinput="onInputChange" value="{{inputValue}}" auto-height></textarea>
     <view class="interact">

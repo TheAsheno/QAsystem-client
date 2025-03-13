@@ -16,7 +16,8 @@ Page({
       { id: 2, name: '深度学习入门' },
       { id: 3, name: '自然语言处理' }
     ],
-    selectedCourse: null
+    selectedCourse: null,
+    isQuote: false
   },
   bindCourseChange(e) {
     const index = e.detail.value
@@ -60,6 +61,16 @@ Page({
       }
     });
   },
+  onQuote(e) {
+    this.setData({
+      isQuote: true
+    })
+  },
+  closeContext(e) {
+    this.setData({
+      isQuote: false
+    })
+  },
   onRefresh(e) {
     const type = e.currentTarget.dataset.type;
     const index = e.currentTarget.dataset.index;
@@ -100,10 +111,10 @@ Page({
     this.setData({ requestTask });
     promise
       .then((res) => {
-        this.addMessage(res.answer, 'ai');
+        this.addMessage(res.answer, 'ai', res.context);
       })
       .catch((err) => {
-        this.addMessage(err.errMsg, 'ai');
+        this.addMessage(err.error, 'ai');
       })
       .finally(() => {
         this.setData({
@@ -113,8 +124,8 @@ Page({
         });
       });
   },  
-  addMessage(content, type) {
-    const newMessage = { content, type };
+  addMessage(content, type, context) {
+    const newMessage = { content, type, context };
     this.setData({
       messages: [...this.data.messages, newMessage],
     });

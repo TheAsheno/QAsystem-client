@@ -1,8 +1,8 @@
 // api/list.js
-
+import config from '../utils/config'
 function getLists(courseIds, status, studentid, questionid) {
   return new Promise((resolve, reject) => {
-    let url = 'http://172.21.202.55:3000/api/questions';
+    let url = config.url_sql + '/api/questions';
     const params = [];
     if (courseIds) {
       params.push(`courseIds=${courseIds.join(',')}`);

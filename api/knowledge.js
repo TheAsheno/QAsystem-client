@@ -1,10 +1,10 @@
 // api/knowledge.js
-
+import config from '../utils/config'
 function getKnowledgeFiles(courseIds) {
   return new Promise((resolve, reject) => {
     const courseIdsParam = courseIds.join(',');
     wx.request({
-      url: `http://172.21.202.55:3000/api/knowledge?courseIds=${courseIdsParam}`,
+      url: config.url_sql + `/api/knowledge?courseIds=${courseIdsParam}`,
       method: 'GET',
       success: (res) => {
         if (res.statusCode === 200) {
@@ -31,14 +31,15 @@ function getKnowledgeFiles(courseIds) {
 function uploadFile(obj) {
   return new Promise((resolve, reject) => {
     wx.uploadFile({
-      url: 'http://172.21.202.55:3000/api/knowledge/upload',
+      url: config.url_sql + '/api/knowledge/upload',
       filePath: obj.filePath,
       name: 'file',
       formData: {
         uploaderid: obj.uploaderid,
         courseid: obj.courseid,
         type: obj.type,
-        filename: obj.filename
+        filename: obj.filename,
+        isKb: obj.isKb
       },
       success: (res) => {
         if (res.statusCode === 200) {
@@ -65,7 +66,7 @@ function uploadFile(obj) {
 function updateRelations(knowledgeid, relations) {
   return new Promise((resolve, reject) => {
     wx.request({
-      url: `http://172.21.202.55:3000/api/knowledge/${knowledgeid}/relations`,
+      url: config.url_sql + `/api/knowledge/${knowledgeid}/relations`,
       method: 'PUT',
       data: { relations: relations },
       success: (res) => {
@@ -95,7 +96,7 @@ function updateRelations(knowledgeid, relations) {
 function deleteFile(knowledgeid, filePath) {
   return new Promise((resolve, reject) => {
     wx.request({
-      url: `http://172.21.202.55:3000/api/knowledge/${knowledgeid}`,
+      url: config.url_sql + `/api/knowledge/${knowledgeid}`,
       method: 'DELETE',
       data: { filePath: filePath },
       success: (res) => {

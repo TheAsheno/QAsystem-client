@@ -1,9 +1,9 @@
 // api/message.js
-
+import config from '../utils/config'
 function getReply(questionId) {
   return new Promise((resolve, reject) => {
     wx.request({
-      url: `http://172.21.202.55:3000/api/replies?questionid=${questionId}`,
+      url: config.url_sql + `/api/replies?questionid=${questionId}`,
       method: 'GET',
       success: (res => {
         if (res.statusCode === 200) {
@@ -30,7 +30,7 @@ function getReply(questionId) {
 function addReply(obj) {
   return new Promise((resolve, reject) => {
     wx.request({
-      url: 'http://172.21.202.55:3000/api/replies',
+      url: config.url_sql + '/api/replies',
       method: 'POST',
       data: obj,
       success: (res => {
@@ -62,7 +62,7 @@ function addReply(obj) {
 function changeLike(replyid, like) {
   return new Promise((resolve, reject) => {
     wx.request({
-      url: `http://172.21.202.55:3000/api/replies/${replyid}/like`,
+      url: config.url_sql + `/api/replies/${replyid}/like`,
       method: 'PUT',
       data: { like: like },
       success: (res) => {

@@ -1,9 +1,9 @@
 // api/register.js
-
+import config from '../utils/config'
 function login(obj) {
   return new Promise((resolve, reject) => {
     wx.request({
-      url: 'http://172.21.202.55:3000/api/users/login',
+      url: config.url_sql + '/api/users/login',
       method: 'POST',
       data: obj,
       success: (res => {

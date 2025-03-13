@@ -1,8 +1,8 @@
 // api/notification.js
-
+import config from '../utils/config'
 function getNotification(receiverId, role, isRead) {
   return new Promise((resolve, reject) => {
-    let url = 'http://172.21.202.55:3000/api/notifications';
+    let url = config.url_sql + '/api/notifications';
     const params = [];
     if (receiverId) {
       params.push(`receiverid=${receiverId}`)
@@ -45,7 +45,7 @@ function markNotification(notificationIds) {
   return new Promise((resolve, reject) => {
     const notificationIdsParam = notificationIds.join(',');
     wx.request({
-      url: `http://172.21.202.55:3000/api/notifications/read?notificationIds=${notificationIdsParam}`,
+      url: config.url_sql + `/api/notifications/read?notificationIds=${notificationIdsParam}`,
       method: 'PUT',
       success: (res => {
         if (res.statusCode === 200) {
@@ -73,7 +73,7 @@ function deleteNotification(notificationIds) {
   return new Promise((resolve, reject) => {
     const notificationIdsParam = notificationIds.join(',');
     wx.request({
-      url: `http://172.21.202.55:3000/api/notifications?notificationIds=${notificationIdsParam}`,
+      url: config.url_sql + `/api/notifications?notificationIds=${notificationIdsParam}`,
       method: 'DELETE',
       success: (res => {
         if (res.statusCode === 200) {
@@ -100,7 +100,7 @@ function deleteNotification(notificationIds) {
 function sendNotification(obj) {
   return new Promise((resolve, reject) => {
     wx.request({
-      url: 'http://172.21.202.55:3000/api/notifications',
+      url: config.url_sql + '/api/notifications',
       method: 'POST',
       data: obj,
       success: (res => {

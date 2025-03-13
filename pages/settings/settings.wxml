@@ -1,7 +1,7 @@
 <!--pages/settings/settings.wxml-->
 <view class="container">
   <view class="user-card" bindtap="changeAvatar">
-    <image class="avatar" src="{{user.avatar ? 'http://172.21.202.55:3000' + user.avatar : '/images/avatar.png'}}"></image>
+    <image class="avatar" src="{{user.avatar ? config.url_sql + user.avatar : '/images/avatar.png'}}"></image>
     <view class="user-info">
       <text class="nickname">{{user.username || '点击设置昵称'}}</text>
       <text class="tip">{{user.role == 'student' ? '学生' : '老师'}}</text>

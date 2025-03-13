@@ -1,9 +1,9 @@
 // api/question.js
-
+import config from '../utils/config'
 function addQuestion(obj) {
   return new Promise((resolve, reject) => {
     wx.request({
-      url: 'http://172.21.202.55:3000/api/questions',
+      url: config.url_sql + '/api/questions',
       method: 'POST',
       data: obj,
       success: (res => {
@@ -32,7 +32,7 @@ function addQuestion(obj) {
 function updateQuestion(obj, questionId) {
   return new Promise((resolve, reject) => {
     wx.request({
-      url: `http://172.21.202.55:3000/api/questions/${questionId}`,
+      url: config.url_sql + `/api/questions/${questionId}`,
       method: 'PUT',
       data: obj,
       success: (res => {
@@ -65,7 +65,7 @@ function updateQuestion(obj, questionId) {
 function deleteQuestion(questionId) {
   return new Promise((resolve, reject) => {
     wx.request({
-      url: `http://172.21.202.55:3000/api/questions/${questionId}`,
+      url: config.url_sql + `/api/questions/${questionId}`,
       method: 'DELETE',
       success: (res => {
         if (res.statusCode === 200) {
@@ -98,7 +98,7 @@ function uploadImages(images) {
   const uploadPromises = images.map(image => {
     return new Promise((resolve, reject) => {
       wx.uploadFile({
-        url: 'http://172.21.202.55:3000/api/upload',
+        url: config.url_sql + '/api/upload',
         filePath: image,
         name: 'images',
         success: res => {
@@ -118,7 +118,7 @@ function getQuestionCounts(courseIds) {
   return new Promise((resolve, reject) => {
     const courseIdsParam = courseIds.join(',');
     wx.request({
-      url: `http://172.21.202.55:3000/api/questions/count?courseIds=${courseIdsParam}`,
+      url: config.url_sql + `/api/questions/count?courseIds=${courseIdsParam}`,
       method: 'GET',
       success: (res) => {
         if (res.statusCode === 200) {
@@ -146,34 +146,7 @@ function getReplyCounts(questionIds) {
   return new Promise((resolve, reject) => {
     const questionIdsParam = questionIds.join(',');
     wx.request({
-      url: `http://172.21.202.55:3000/api/replies/count?questionIds=${questionIdsParam}`,
-      method: 'GET',
-      success: (res) => {
-        if (res.statusCode === 200) {
-          resolve(res.data);
-        } else {
-          wx.showToast({
-            title: '获取回复数量失败',
-            icon: 'none'
-          });
-          reject(`Error: ${res.statusCode}`);
-        }
-      },
-      fail: (err) => {
-        wx.showToast({
-          title: 'API 请求失败',
-          icon: 'none'
-        });
-        reject(err);
-      }
-    });
-  });
-}
-
-function getQuestion(questionId) {
-  return new Promise((resolve, reject) => {
-    wx.request({
-      url: `http://172.21.202.55:3000/api/questions/count?questionIds=${questionIdsParam}`,
+      url: config.url_sql + `/api/replies/count?questionIds=${questionIdsParam}`,
       method: 'GET',
       success: (res) => {
         if (res.statusCode === 200) {

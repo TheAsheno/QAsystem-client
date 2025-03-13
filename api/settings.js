@@ -1,9 +1,9 @@
 // api/settings.js
-
+import config from '../utils/config'
 function updateUser(obj) {
   return new Promise((resolve, reject) => {
     wx.request({
-      url: `http://172.21.202.55:3000/api/users/${obj.role}s/${obj.userid}`,
+      url: config.url_sql + `/api/users/${obj.role}s/${obj.userid}`,
       method: 'PUT',
       data: { 
         nickname: obj.nickname,
@@ -40,7 +40,7 @@ function updateUser(obj) {
 function deleteImages(filePath) {
   return new Promise((resolve, reject) => {
     wx.request({
-      url: 'http://172.21.202.55:3000/api/upload',
+      url: config.url_sql + '/api/upload',
       method: 'DELETE',
       data: { filePath: filePath },
       success: (res) => {

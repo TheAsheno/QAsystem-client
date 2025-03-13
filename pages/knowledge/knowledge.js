@@ -1,6 +1,7 @@
 // pages/knowledge/knowledge.js
 import { getKnowledgeFiles, uploadFile, updateRelations, deleteFile } from '../../api/knowledge'
 import { getCourses } from '../../api/course'
+import config from '../../utils/config'
 const app = getApp();
 Page({
 
@@ -14,7 +15,12 @@ Page({
     searchKeyword: '',
     showKnowledgeGraph: true,
     files: [],
-    filteredFiles: []
+    filteredFiles: [],
+    showModal: false,
+    selectedCourse: null,
+    isKb: "false",
+    file: null,
+    type: null
   },
   // 初始化知识图谱
   initGraph() {
@@ -41,46 +47,77 @@ Page({
   hideUploadPanel() {
     this.setData({ showUploadPanel: false })
   },
+  closeModal() {
+    this.setData({
+      selectedCourse: null,
+      file: null,
+      isKb: "false",
+      type: null,
+      showModal: false
+    })
+  },
+  onCourseChange: function(e) {
+    const index = e.detail.value;
+    this.setData({
+      selectedCourse: index,
+    });
+  },
+  isKbChange(e) {
+    let isKb = e.detail.value;
+    this.setData({
+      isKb: isKb
+    })
+  },
+  confirmModel() {
+    if (!this.data.selectedCourse) {
+      wx.showToast({
+        icon: 'none',
+        title: '课程不能为空',
+      })
+      return;
+    }
+    wx.showLoading({ title: '上传中...' });
+    const file = this.data.file;
+    const course = this.data.courses[this.data.selectedCourse];
+    let obj = {
+      filePath: file.path,
+      uploaderid: this.data.user.userid,
+      courseid: course.courseid,
+      type: this.data.type,
+      filename: file.name,
+      isKb: this.data.isKb
+    };
+    uploadFile(obj)
+    .then(res => {
+      res.size = this.formatFileSize(res.size),
+      res.createdAt = res.createdAt.slice(0, 10),
+      res.uploader = this.data.user.username,
+      res.coursename = course.coursename
+      this.setData({
+        files: [...this.data.files, res],
+        showUploadPanel: false
+      }, () => {
+        this.closeModal();
+        this.filterFiles();
+        wx.hideLoading();
+      });
+    })
+    .catch(uploadErr => {
+      wx.hideLoading();
+      console.error(uploadErr);
+    });
+  },
   chooseFile(e) {
     const type = e.currentTarget.dataset.type
+    this.setData({ type: type })
     wx.chooseMessageFile({
       count: 1,
       type: type,
       success: res => {
-        const file = res.tempFiles[0];
-        const courses = this.data.courses;
-        wx.showActionSheet({
-          itemList: courses.map(course => course.coursename),
-          success: (selectRes) => {
-            wx.showLoading({ title: '上传中...' });
-            const selectedCourse = courses[selectRes.tapIndex];
-            let obj = {
-              filePath: file.path,
-              uploaderid: this.data.user.userid,
-              courseid: selectedCourse.courseid,
-              type: type,
-              filename: file.name
-            };
-            uploadFile(obj)
-              .then(res => {
-                res.size = this.formatFileSize(res.size),
-                res.createdAt = res.createdAt.slice(0, 10),
-                res.uploader = this.data.user.username,
-                res.coursename = selectedCourse.coursename
-                this.setData({
-                  files: [...this.data.files, res],
-                  showUploadPanel: false
-                }, () => {
-                  this.filterFiles();
-                  wx.hideLoading();
-                });
-              })
-              .catch(uploadErr => {
-                wx.hideLoading();
-                console.error(uploadErr);
-              });
-          }
-        });
+        this.setData({
+          file: res.tempFiles[0],
+          showModal: true
+         });
       }
     });
   },
@@ -134,7 +171,7 @@ Page({
   downloadFile(e) {
     const path = e.currentTarget.dataset.path;
     wx.downloadFile({
-      url: 'https://172.21.202.55:3000/' + path,
+      url: config.url_sql + path,
       success: (res) => {
         if (res.statusCode === 200) {
           const filePath = res.tempFilePath;

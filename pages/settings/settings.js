@@ -1,6 +1,7 @@
 // pages/settings/settings.js
 import { uploadImages } from '../../api/question'
 import { updateUser, deleteImages } from '../../api/settings'
+import config from '../../utils/config'
 const app = getApp();
 Page({
 
@@ -8,7 +9,8 @@ Page({
    * 页面的初始数据
    */
   data: {
-    user: {}
+    user: {},
+    config: config
   },
   changeAvatar() {
     wx.chooseMedia({

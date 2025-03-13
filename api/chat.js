@@ -1,10 +1,10 @@
 // api/chat.js
-
+import config from '../utils/config'
 function getModelResponse(obj) {
   let requestTask; 
   const promise = new Promise((resolve, reject) => {
     requestTask = wx.request({
-      url: 'http://127.0.0.1:5000/ask',
+      url: config.url_llm + '/ask',
       method: 'POST',
       header: {
         'Content-Type': 'application/json',
@@ -13,8 +13,7 @@ function getModelResponse(obj) {
       data: {
         question: obj.question,
         history: obj.history,
-        max_tokens: 100,
-        temperature: 0.7,
+        course: 1
       },
       success: (res) => {
         if (res.statusCode === 200) {

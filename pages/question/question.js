@@ -2,6 +2,7 @@
 import { getReply, addReply, changeLike } from '../../api/reply'
 import { uploadImages, updateQuestion } from '../../api/question'
 import { sendNotification } from '../../api/notification'
+import config from '../../utils/config'
 const utils = require('../../utils/util.js');
 const app = getApp();
 Page({
@@ -16,7 +17,8 @@ Page({
     replyContent: "",
     images: [],
     only: false,
-    images: []
+    images: [],
+    config: config
   },
   toggleLike(e) {
     const replyid = e.currentTarget.dataset.id;

@@ -3,7 +3,7 @@
   <view class="question-card">
     <view class="user-info">
       <view style="display: flex;">
-        <image class="avatar" src="{{question.Student.avatar ? 'http://172.21.202.55:3000' + question.Student.avatar : '/images/avatar.png'}}"></image>
+        <image class="avatar" src="{{question.Student.avatar ? config.url_sql + question.Student.avatar : '/images/avatar.png'}}"></image>
         <view class="meta">
           <text class="username">{{question.Student.nickname}}</text>
           <text class="time">{{question.createdAt}}</text>
@@ -20,7 +20,7 @@
         </block>
       </view>
       <block wx:for="{{question.images}}" wx:key="index">
-        <image src="http://172.21.202.55:3000{{item}}" mode="aspectFit" class="image"></image>
+        <image src="{{config.url_sql + item}}" mode="aspectFit" class="image"></image>
       </block>
     </view>
   </view>
@@ -32,7 +32,7 @@
     <block wx:for="{{allReplies}}" wx:key="index">
       <view class="answer-card">
         <view class="user-info">
-          <image class="avatar" src="{{item.Student.avatar ? 'http://172.21.202.55:3000' + item.Student.avatar : (item.Teacher.avatar ? 'http://172.21.202.55:3000' + item.Teacher.avatar : '/images/avatar.png')}}"></image>
+          <image class="avatar" src="{{item.Student.avatar ? config.url_sql + item.Student.avatar : (item.Teacher.avatar ? config.url_sql + item.Teacher.avatar : '/images/avatar.png')}}"></image>
           <view class="meta">
             <text class="username">{{item.Student ? '🎓 ' +item.Student.nickname : '✒️ ' + item.Teacher.username}}</text>
             <text class="time">{{item.createdAt}}</text>
@@ -44,7 +44,7 @@
           </view>
         </view>
         <block wx:for="{{item.images}}" wx:key="index">
-          <image src="http://172.21.202.55:3000{{item}}" mode="aspectFit" class="image"></image>
+          <image src="{{config.url_sql + item}}" mode="aspectFit" class="image"></image>
         </block>
       </view>
     </block>
