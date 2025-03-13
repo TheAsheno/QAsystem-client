@@ -8,7 +8,7 @@
     </view>
     <view class="inputPt" style="margin-top: 350rpx;">
       <image src="../../images/password.png" class="icon"></image>
-      <input placeholder="密码" type="password" bindinput="onPasswordChange" />
+      <input placeholder="密码" password="true" bindinput="onPasswordChange" />
     </view>
     <view class="denglu">
       <button class="btn-dl" type="primary" bindtap="goAdmin">登录</button>
