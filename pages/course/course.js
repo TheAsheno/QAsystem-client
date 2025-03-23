@@ -76,7 +76,7 @@ Page({
       filteredCourses = filteredCourses.filter(course => course.property === selectedProperty);
     }
     if (searchQuery) {
-      filteredCourses = filteredCourses.filter(course => course.name.includes(searchQuery));
+      filteredCourses = filteredCourses.filter(course => course.coursename.includes(searchQuery));
     }
     this.setData({
       filteredCourses: filteredCourses

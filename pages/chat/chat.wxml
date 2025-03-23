@@ -11,31 +11,27 @@
           <image wx:if="{{item.type == 'ai'}}" class="attach-icon" data-index="{{index}}" src="/images/link.png" bindtap="onQuote"></image>
           <image class="attach-icon" data-index="{{index}}" data-type="{{item.type}}" src="/images/refresh.png" bindtap="{{isLoading ? '' : 'onRefresh'}}"></image>
         </view>
-        <view class="context-modal" wx:if="{{isQuote}}" catchtap="closeContext">
+      </block>
+      <view class="context-modal" wx:if="{{isQuote}}" catchtap="closeContext">
           <view class="context-content">
             <text class="context-title">参考内容：</text>
-            <scroll-view scroll-y class="context-text">
-              {{item.context}}
-            </scroll-view>
+            <scroll-view scroll-y class="context-text">{{quoteText}}</scroll-view>
           </view>
         </view>
-      </block>
       <view wx:if="{{isLoading}}" class="loader">
         <view class="loader-spinner"></view>
       </view>
     </view>
   </scroll-view>
-
   <view class="input-area">
     <textarea class="chat-input" placeholder="请输入消息" bindinput="onInputChange" value="{{inputValue}}" auto-height></textarea>
     <view class="interact">
       <view class="function">
-        <view class="course-picker">
+        <view class="course-picker" bindtap="showCoursePicker">
           <image class="icon-knowledge" src="/images/icon-knowledge.png"></image>
-          <picker bindchange="bindCourseChange" value="{{selectedCourse}}" range="{{courseList}}" range-key="name">
-            <view>{{courseList[selectedCourse].name || '选择课程'}}</view>
-          </picker>
+          <view>{{selectedCoursename || '选择课程'}}</view>
         </view>
+        <searchPicker id="coursePicker" items="{{filteredCourses}}" initValue="{{selectedCourseid}}" bind:searchItems="searchCourse" bind:confirm="selectCourse"/>
       </view>
       <view class="btn-container">
         <image class="delete-btn" src="/images/clear.png" bindtap="onDelete"></image>

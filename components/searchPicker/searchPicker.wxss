@@ -28,8 +28,6 @@
   align-items: center;
   padding: 0 20rpx;
   font-size: 34rpx;
-  line-height: 70rpx;
-  color: var(--ThemeColor)
 }
 .pickViewColumn {
   height: 900rpx;

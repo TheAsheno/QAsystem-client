@@ -1,4 +1,5 @@
 // pages/chat/chat.js
+import { getCourses } from '../../api/course';
 import getModelResponse from '../../api/chat.js';
 Page({
 
@@ -11,18 +12,35 @@ Page({
     sendButtonImage: '/images/up-arrow-none.png',
     isLoading: false,
     requestTask: null,
-    courseList: [
-      { id: 1, name: '机器学习基础' },
-      { id: 2, name: '深度学习入门' },
-      { id: 3, name: '自然语言处理' }
-    ],
-    selectedCourse: null,
-    isQuote: false
+    courses: [],
+    filteredCourses: [],
+    selectedCourseid: null,
+    selectedCoursename: null,
+    isQuote: false,
+    quoteText: ''
   },
-  bindCourseChange(e) {
-    const index = e.detail.value
+  showCoursePicker(e) {
     this.setData({
-      selectedCourse: index
+      filteredCourses: this.data.courses
+    })
+    this.selectComponent('#coursePicker').showPicker();
+  },
+  searchCourse(e) {
+    const searchValue = e.detail;
+    let filteredCourses = this.data.courses;
+    if (searchValue) {
+      filteredCourses = filteredCourses.filter(course => course.coursename.includes(searchValue))
+    }
+    this.setData({
+      filteredCourses: filteredCourses
+    })
+  },
+  selectCourse(e) {
+    const index = e.detail[0];
+    const filteredCourses = this.data.filteredCourses;
+    this.setData({
+      selectedCourseid: filteredCourses[index].courseid,
+      selectedCoursename: filteredCourses[index].coursename
     })
   },
   onInputChange(e) {
@@ -62,8 +80,10 @@ Page({
     });
   },
   onQuote(e) {
+    const index = e.currentTarget.dataset.index;
     this.setData({
-      isQuote: true
+      isQuote: true,
+      quoteText: this.data.messages[index].context
     })
   },
   closeContext(e) {
@@ -98,6 +118,13 @@ Page({
     if (!inputMessage) {
       return;
     }
+    if (!this.data.selectedCourseid) {
+      wx.showToast({
+        title: '请选择对应课程',
+        icon: 'none'
+      })
+      return;
+    }
     this.setData({
       inputValue: '',
       isLoading: true,
@@ -107,6 +134,7 @@ Page({
     const { promise, requestTask } = getModelResponse({ 
       question: inputMessage,
       history: history,
+      course: this.data.selectedCourseid
     })
     this.setData({ requestTask });
     promise
@@ -140,7 +168,16 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad(options) {
-
+    getCourses()
+    .then(res => {
+      this.setData({
+        courses: res,
+        filteredCourses: res
+      })
+    })
+    .catch(err => {
+      console.error('Failed to get courses:', err);
+    });
   },
 
   /**

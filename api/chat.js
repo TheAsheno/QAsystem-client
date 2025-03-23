@@ -13,7 +13,7 @@ function getModelResponse(obj) {
       data: {
         question: obj.question,
         history: obj.history,
-        course: 1
+        course: obj.course
       },
       success: (res) => {
         if (res.statusCode === 200) {
