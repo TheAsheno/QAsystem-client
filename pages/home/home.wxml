@@ -33,7 +33,6 @@
               </block>
             </view>
           </view>
-          <!--<view wx:if="{{user.role == 'student'}}" class="remind">{{item.price}}新回复</view>-->
         </view>
       </view>
     </scroll-view>

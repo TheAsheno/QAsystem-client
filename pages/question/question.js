@@ -2,6 +2,7 @@
 import { getReply, addReply, changeLike } from '../../api/reply'
 import { uploadImages, updateQuestion } from '../../api/question'
 import { sendNotification } from '../../api/notification'
+import { addFavorite, getFavorites, deleteFavorite } from '../../api/favorite'
 import config from '../../utils/config'
 const utils = require('../../utils/util.js');
 const app = getApp();
@@ -18,7 +19,9 @@ Page({
     images: [],
     only: false,
     images: [],
-    config: config
+    config: config,
+    isFavorite: false,
+    favoriteId: null
   },
   toggleLike(e) {
     const replyid = e.currentTarget.dataset.id;
@@ -126,6 +129,28 @@ Page({
       }
     })
   },
+  addFavorite() {
+    let obj = {
+      studentid: this.data.user.userid,
+      questionid: this.data.question.questionid
+    }
+    addFavorite(obj)
+    .then(res => {
+      this.setData({
+        isFavorite: true,
+        favoriteId: res.favoriteid
+      })
+    })
+  },
+  deleteFavorite() {
+    deleteFavorite(this.data.favoriteId)
+    .then(res => {
+      this.setData({
+        isFavorite: false,
+        favoriteId: null
+      })
+    })
+  },
   addImage() {
     if (this.data.images.length >= 3) {
       wx.showToast({
@@ -202,17 +227,27 @@ Page({
     this.setData({ 
       question: question,
       user: app.globalData.user
-     });
-    getReply(question.questionid)
-    .then(res => {
-      res.forEach(item => {
-        item.createdAt = utils.formatTime(new Date(item.createdAt));
-        item.isLiked = false; 
-      });
-      this.setData({
-        allReplies: res
+     }, () => {
+      getReply(this.data.question.questionid)
+      .then(res => {
+        res.forEach(item => {
+          item.createdAt = utils.formatTime(new Date(item.createdAt));
+          item.isLiked = false; 
+        });
+        this.setData({
+          allReplies: res
+        })
       })
-    })
+      getFavorites(this.data.user.userid, this.data.question.questionid)
+      .then(res => {
+        if (res.length > 0) {
+          this.setData({
+            isFavorite: true,
+            favoriteId: res[0].favoriteid
+          })
+        }
+      })
+     });
   },
 
   /**

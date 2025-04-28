@@ -18,9 +18,14 @@
       <text>修改昵称</text>
       <image class="arrow" src="/images/arrow-right.png"></image>
     </view>
-    <view class="list-item" wx:if="{{user.role == 'student'}}" bindtap="relateCourse">
+    <view class="list-item" wx:if="{{user.role == 'student'}}" bindtap="manageQuestion">
       <image class="icon" src="/images/icon-manage.png"></image>
       <text>问题管理</text>
+      <image class="arrow" src="/images/arrow-right.png"></image>
+    </view>
+    <view class="list-item" wx:if="{{user.role == 'student'}}" bindtap="questionMark">
+      <image class="icon" src="/images/icon-favorite.png"></image>
+      <text>收藏夹</text>
       <image class="arrow" src="/images/arrow-right.png"></image>
     </view>
     <view class="list-item" bindtap="userNotification">

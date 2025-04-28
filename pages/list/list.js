@@ -1,5 +1,5 @@
 // pages/list/list.js
-import { getLists } from '../../api/list'
+import { getQuestions } from '../../api/question'
 const utils = require('../../utils/util.js');
 const app = getApp();
 Page({
@@ -118,7 +118,7 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow() {
-    getLists([this.data.courseId])
+    getQuestions([this.data.courseId])
     .then(res => {
       res.forEach(item => {
         item.createdAt = utils.formatTime(new Date(item.createdAt));

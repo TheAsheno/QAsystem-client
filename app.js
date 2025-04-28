@@ -24,5 +24,6 @@ App({
   globalData: {
     user: null,
     token: null
-  }
+  },
+  towxml:require('/towxml/index')
 })

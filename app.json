@@ -14,7 +14,8 @@
     "pages/settings/settings",
     "pages/question-management/question-management",
     "pages/course-management/course-management",
-    "pages/notification/notification"
+    "pages/notification/notification",
+    "pages/favorite/favorite"
   ],
   "window": {
     "navigationBarTextStyle": "white",

@@ -1,6 +1,6 @@
 // pages/home/home.js
 import { getCourses } from '../../api/course'
-import { getLists } from '../../api/list'
+import { getQuestions } from '../../api/question'
 import { getNotification } from '../../api/notification'
 const utils = require('../../utils/util.js');
 const app = getApp();
@@ -19,17 +19,17 @@ Page({
       },
       {
         'src': '/images/knowledge.png',
-        'title': '知识库',
+        'title': '文件上传',
         'page': '/pages/knowledge/knowledge'
       },
       {
         'src': '/images/interact.png',
-        'title': 'AI答疑',
+        'title': '智能答疑',
         'page': '/pages/chat/chat'
       },
       {
         'src': '/images/setting.png',
-        'title': '设置',
+        'title': '用户设置',
         'page': '/pages/settings/settings'
       },
     ],
@@ -84,7 +84,7 @@ Page({
       if (this.data.user.role == 'teacher') {
         getCourses(this.data.user.userid, 'teacher')
         .then(res => {
-          getLists(res.map(course => course.courseid), 'open')
+          getQuestions(res.map(course => course.courseid), 'open')
           .then(res => {
             res.forEach(item => {
               item.createdAt = utils.formatTime(new Date(item.createdAt));
@@ -96,7 +96,7 @@ Page({
         })
       }
       else {
-        getLists(null, 'open', this.data.user.userid)
+        getQuestions(null, 'open', this.data.user.userid)
         .then(res => {
           res.forEach(item => {
             item.createdAt = utils.formatTime(new Date(item.createdAt));

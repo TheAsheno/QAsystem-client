@@ -4,20 +4,31 @@
     <view class="messages-container">
       <block wx:for="{{messages}}" wx:key="index">
         <view id="msg-{{index}}" class="message {{item.type}}">
-          <text style="user-select: text;">{{item.content}}</text>
+          <towxml nodes="{{item.parse_content}}" />
         </view>
         <view class="attach {{item.type}}">
           <image class="attach-icon" data-index="{{index}}" src="/images/copy.png" bindtap="onCopy"></image>
+          <image wx:if="{{item.type == 'user'}}" class="attach-icon" data-index="{{index}}" src="/images/submit.png" bindtap="onSubmit"></image>
+          <image wx:if="{{item.type == 'ai'}}" class="attach-icon" data-index="{{index}}" src="/images/similar.png" bindtap="onSimilar"></image>
           <image wx:if="{{item.type == 'ai'}}" class="attach-icon" data-index="{{index}}" src="/images/link.png" bindtap="onQuote"></image>
           <image class="attach-icon" data-index="{{index}}" data-type="{{item.type}}" src="/images/refresh.png" bindtap="{{isLoading ? '' : 'onRefresh'}}"></image>
         </view>
-      </block>
-      <view class="context-modal" wx:if="{{isQuote}}" catchtap="closeContext">
+        <view class="context-modal" wx:if="{{isQuote}}" catchtap="closeContext">
           <view class="context-content">
             <text class="context-title">参考内容：</text>
-            <scroll-view scroll-y class="context-text">{{quoteText}}</scroll-view>
+            <scroll-view scroll-y class="context-text">{{item.kb_context}}</scroll-view>
           </view>
         </view>
+        <view class="similar-items" wx:if="{{showRelatedIndex === index}}">
+          <view class="similar-header">相似问题推荐</view>
+          <block wx:for="{{item.related_questions}}" wx:key="questionid">
+            <view class="similar-question" data-knowledgeid="{{item.questionid}}" bindtap="navigateToQuestion">
+              <view class="similar-title">{{item.title}}</view>
+              <view class="similar-content">{{item.content}}</view>
+            </view>
+          </block>
+        </view>
+      </block>
       <view wx:if="{{isLoading}}" class="loader">
         <view class="loader-spinner"></view>
       </view>
@@ -31,7 +42,7 @@
           <image class="icon-knowledge" src="/images/icon-knowledge.png"></image>
           <view>{{selectedCoursename || '选择课程'}}</view>
         </view>
-        <searchPicker id="coursePicker" items="{{filteredCourses}}" initValue="{{selectedCourseid}}" bind:searchItems="searchCourse" bind:confirm="selectCourse"/>
+        <searchPicker id="coursePicker" items="{{filteredCourses}}" initValue="{{selectedCourseid}}" bind:searchItems="searchCourse" bind:confirm="selectCourse" />
       </view>
       <view class="btn-container">
         <image class="delete-btn" src="/images/clear.png" bindtap="onDelete"></image>

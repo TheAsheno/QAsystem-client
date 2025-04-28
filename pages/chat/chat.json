@@ -1,5 +1,6 @@
 {
   "usingComponents": {
-    "searchPicker": "/components/searchPicker/searchPicker"
+    "searchPicker": "/components/searchPicker/searchPicker",
+    "towxml":"/towxml/towxml"
   }
 }

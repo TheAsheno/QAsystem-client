@@ -1,6 +1,6 @@
 var config = {
-  url_sql: "http://localhost:3000",
-  url_llm: "http://localhost:5000"
+  url_sql: "http://localhost:8001",
+  url_llm: "http://localhost:7000"
 };
 
 export default config

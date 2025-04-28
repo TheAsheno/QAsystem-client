@@ -1,0 +1,24 @@
+<!--pages/favorite/favorite.wxml-->
+<view class="v1">
+  <view class="favorite-list">
+    <block wx:for="{{favorites}}" wx:key="index">
+      <view class="question-item" wx:key="index" bindtap="onQuestionClick" data-item="{{item.Question}}">
+        <text class="question-title">{{item.Question.title}}</text>
+        <view class="question-content">{{item.Question.content}}</view>
+        <view class="question-info">
+          <view style="display: flex; align-items: center;">
+            <text class="question-course">{{item.Question.Course.coursename}}</text>
+            <view class="question-tags">
+              <block wx:for="{{item.Question.tags}}" wx:key="tag">
+                <view class="tag-item">{{item}}</view>
+              </block>
+            </view>
+          </view>
+          <view class="question-btn">
+            <view class="btn-1 delete-btn" catchtap="deleteQuestion" data-index="{{index}}">删除</view>
+          </view>
+        </view>
+      </view>
+    </block>
+  </view>
+</view>

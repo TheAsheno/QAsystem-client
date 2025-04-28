@@ -68,13 +68,21 @@ Page({
             }
             wx.setStorageSync('userData', user)
             this.setData({ user })
+            app.globalData.user = user;
           })
         }
       }
     })
   },
-  relateCourse(e) {
-    wx.navigateTo({ url: '/pages/question-management/question-management' })
+  manageQuestion(e) {
+    wx.navigateTo({
+      url: '/pages/question-management/question-management'
+    })
+  },
+  questionMark(e) {
+    wx.navigateTo({
+      url: '/pages/favorite/favorite',
+    })
   },
   userNotification(e) {
     wx.navigateTo({
@@ -82,10 +90,14 @@ Page({
     })
   },
   navigateToFeedback() {
-    wx.navigateTo({ url: '/pages/feedback/feedback' })
+    wx.navigateTo({
+      url: '/pages/feedback/feedback'
+    })
   },
   navigateToAbout() {
-    wx.navigateTo({ url: '/pages/about/about' })
+    wx.navigateTo({
+      url: '/pages/about/about'
+    })
   },
   showLogoutConfirm() {
     wx.showModal({

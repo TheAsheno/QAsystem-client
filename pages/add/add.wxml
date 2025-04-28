@@ -7,7 +7,7 @@
     </view>
     <view class="form-item">
       <text class="label">详细描述</text>
-      <textarea class="input-content" placeholder="请详细描述您的问题..." bindinput="bindContentInput" auto-height />
+      <textarea class="input-content" placeholder="请详细描述您的问题..." bindinput="bindContentInput" auto-height value="{{content}}" />
     </view>
     <view class="form-item">
       <text class="label">添加标签</text>

@@ -1,6 +1,6 @@
 // pages/notification/notification.js
 import { getNotification, markNotification, deleteNotification } from '../../api/notification'
-import { getLists } from '../../api/list'
+import { getQuestions } from '../../api/question'
 const utils = require('../../utils/util.js');
 const app = getApp()
 Page({
@@ -24,7 +24,7 @@ Page({
         notifications: this.data.notifications
       })
     })
-    getLists(null, null, null, notification.questionid)
+    getQuestions(null, null, null, notification.questionid)
     .then(res => {
       const questionStr = encodeURIComponent(JSON.stringify(res[0]));
       wx.navigateTo({

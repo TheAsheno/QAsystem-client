@@ -123,7 +123,8 @@ Page({
     this.setData({ 
       user: app.globalData.user,
       courseId: options.courseId,
-      coursename: options.coursename
+      coursename: options.coursename,
+      content: options.content
      });
   },
 

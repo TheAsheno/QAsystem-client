@@ -28,7 +28,10 @@
           <text>时间: {{item.createdAt}}</text>
         </view>
         <view class="related-knowledge">
-          <text class="relation-course">{{item.coursename}}</text>
+          <view class="file-status">
+            <text class="relation-course">{{item.coursename}}</text>
+            <image wx:if="{{item.isKb}}" src="/images/ack.png" class="action-icon"></image>
+          </view>
           <view class="relation-list">
             <image src="/images/link.png" class="link-icon" bindtap="updateRelation" data-id="{{item.knowledgeid}}"></image>
             <block wx:for="{{item.relations}}" wx:key="index">
@@ -66,7 +69,7 @@
         <view class="input">{{courses[selectedCourse].coursename || '选择课程'}}</view>
       </picker>
       <radio-group class="input" bindchange="isKbChange">
-        是否加入向量库？
+        是否加入知识库？
         <radio color="DimGray" value="false" checked="true" style="margin: auto">否</radio>
         <radio color="DimGray" value="true" style="margin: auto">是</radio>
       </radio-group>

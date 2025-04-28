@@ -1,5 +1,5 @@
 // pages/question-management/question-management.js
-import { getLists } from '../../api/list'
+import { getQuestions } from '../../api/question'
 import { deleteQuestion, updateQuestion, getReplyCounts } from '../../api/question'
 const app = getApp();
 Page({
@@ -117,7 +117,7 @@ Page({
     this.setData({
       user: app.globalData.user
     }, () => {
-      getLists(null, null, this.data.user.userid)
+      getQuestions(null, null, this.data.user.userid)
       .then(questions => {
         this.setData({
           questions: questions

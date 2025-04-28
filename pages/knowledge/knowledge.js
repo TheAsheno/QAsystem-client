@@ -22,15 +22,6 @@ Page({
     file: null,
     type: null
   },
-  // 初始化知识图谱
-  initGraph() {
-    this.graph = new graph.KnowledgeGraph('knowledgeCanvas')
-    this.graph.init([
-      { id: '语法分析', name: '语法分析', links: ['词法分析', '语义分析'] },
-      { id: '词法分析', name: '词法分析', links: ['有限自动机'] },
-      // 其他节点数据...
-    ])
-  },
   filterFiles() {
     const keyword = this.data.searchKeyword.toLowerCase()
     this.setData({

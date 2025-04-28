@@ -76,6 +76,10 @@ page {
   align-items: center; 
   padding-top: 8px;
 }
+.file-status {
+  display: flex;
+  gap: 5px;
+}
 .relation-course {
   color: #999;
   font-size: 25rpx;

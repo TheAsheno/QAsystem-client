@@ -70,6 +70,8 @@
       </view>
       <view class="btn-container">
         <image wx:if="{{user.userid == question.Course.teacherid && question.status == 'open'}}" class="reply-btn" src="/images/solved.png" bindtap="questionSolved"></image>
+        <image wx:if="{{isFavorite}}" class="reply-btn" src="/images/has_favorited.png" bindtap="deleteFavorite"></image>
+        <image wx:else class="reply-btn" src="/images/add_favorite.png" bindtap="addFavorite"></image>
         <image class="reply-btn" src="/images/transfer.png" bindtap="addImage"></image>
         <image class="reply-btn" src="/images/send.png" bindtap="submitReply"></image>
       </view>

@@ -1,6 +1,7 @@
 // pages/chat/chat.js
 import { getCourses } from '../../api/course';
 import getModelResponse from '../../api/chat.js';
+const app = getApp();
 Page({
 
   /**
@@ -17,7 +18,7 @@ Page({
     selectedCourseid: null,
     selectedCoursename: null,
     isQuote: false,
-    quoteText: ''
+    showRelatedIndex: -1
   },
   showCoursePicker(e) {
     this.setData({
@@ -55,8 +56,26 @@ Page({
       messages: []
     });
   },
-  onTransfer() {
-    
+  onSubmit(e) {
+    const index = e.currentTarget.dataset.index;
+    const content = this.data.messages[index].content;
+    wx.showModal({
+      title: '一键发布',
+      content: '将进入问题发布页面，该条消息默认为问题内容',
+      complete: (res) => {
+        if (res.confirm) {
+          wx.navigateTo({
+            url: `/pages/add/add?courseId=${this.data.selectedCourseid}&coursename=${this.data.selectedCoursename}&content=${content}`,
+          })
+        }
+      }
+    })
+  },
+  onSimilar(e) {
+    const index = e.currentTarget.dataset.index;
+    this.setData({
+      showRelatedIndex: this.data.showRelatedIndex === index ? -1 : index
+    });
   },
   onCopy(e) {
     const index = e.currentTarget.dataset.index;
@@ -80,13 +99,17 @@ Page({
     });
   },
   onQuote(e) {
-    const index = e.currentTarget.dataset.index;
     this.setData({
-      isQuote: true,
-      quoteText: this.data.messages[index].context
+      isQuote: true
     })
   },
-  closeContext(e) {
+  navigateToQuestion(e) {
+    const knowledgeid = e.currentTarget.dataset.knowledgeid;
+    wx.navigateTo({
+      url: `/pages/question/detail?id=${knowledgeid}`
+    });
+  },
+  closeContext() {
     this.setData({
       isQuote: false
     })
@@ -130,7 +153,7 @@ Page({
       isLoading: true,
       sendButtonImage: '/images/loading.png',
     });
-    this.addMessage(inputMessage, 'user');
+    this.addMessage({ content: inputMessage }, 'user');
     const { promise, requestTask } = getModelResponse({ 
       question: inputMessage,
       history: history,
@@ -139,10 +162,10 @@ Page({
     this.setData({ requestTask });
     promise
       .then((res) => {
-        this.addMessage(res.answer, 'ai', res.context);
+        this.addMessage(res, 'ai');
       })
       .catch((err) => {
-        this.addMessage(err.error, 'ai');
+        this.addMessage({content: err.error}, 'ai');
       })
       .finally(() => {
         this.setData({
@@ -152,8 +175,10 @@ Page({
         });
       });
   },  
-  addMessage(content, type, context) {
-    const newMessage = { content, type, context };
+  addMessage(message, type) {
+    message.parse_content = app.towxml(message.content, 'markdown');;
+    message.type = type;
+    const newMessage = message;
     this.setData({
       messages: [...this.data.messages, newMessage],
     });
