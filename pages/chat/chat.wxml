@@ -13,12 +13,6 @@
           <image wx:if="{{item.type == 'ai'}}" class="attach-icon" data-index="{{index}}" src="/images/link.png" bindtap="onQuote"></image>
           <image class="attach-icon" data-index="{{index}}" data-type="{{item.type}}" src="/images/refresh.png" bindtap="{{isLoading ? '' : 'onRefresh'}}"></image>
         </view>
-        <view class="context-modal" wx:if="{{isQuote}}" catchtap="closeContext">
-          <view class="context-content">
-            <text class="context-title">参考内容：</text>
-            <scroll-view scroll-y class="context-text">{{item.kb_context}}</scroll-view>
-          </view>
-        </view>
         <view class="similar-items" wx:if="{{showRelatedIndex === index}}">
           <view class="similar-header">相似问题推荐</view>
           <block wx:for="{{item.related_questions}}" wx:key="questionid">
@@ -29,6 +23,34 @@
           </block>
         </view>
       </block>
+      <view class="context-modal" wx:if="{{isQuote}}">
+        <view class="context-content">
+          <view class="context-tabs">
+            <view bindtap="switchTab" class=" tab {{activeTab === 'knowledgeBase' ? 'active' : ''}}" data-tab="knowledgeBase">知识库
+            </view>
+            <view bindtap="switchTab" class=" tab {{activeTab === 'knowledgeGraph' ? 'active' : ''}}" data-tab="knowledgeGraph">知识图谱
+            </view>
+          </view>
+          <view class="context-body">
+            <view wx:if="{{activeTab === 'knowledgeBase'}}">
+              <scroll-view scroll-y class="context-text">{{kb_context}}</scroll-view>
+            </view>
+            <view wx:if="{{activeTab === 'knowledgeGraph'}}" class="echart-position">
+              <f6-canvas width="{{canvasWidth}}" height="{{canvasHeight}}" pixelRatio="{{pixelRatio}}" bind:onInit="handleCanvasInit" bind:onTouchEvent="handleTouch"></f6-canvas>
+              <view class="node-detail">
+                <scroll-view scroll-y wx:if="{{selectedNode}}">
+                  <view class="node-title">
+                    <view class="node-name">{{selectedNode.name}}</view>
+                    <text wx:if="{{selectedNode.image}}" class="image-link" bindtap="handlePreviewImage">查看图片</text>
+                  </view>
+                  <view class="node-alias">别名：{{selectedNode.alias}}</view>
+                  <view class="node-definition">定义：{{selectedNode.definition}}</view>
+                </scroll-view>
+              </view>
+            </view>
+          </view>
+        </view>
+      </view>
       <view wx:if="{{isLoading}}" class="loader">
         <view class="loader-spinner"></view>
       </view>

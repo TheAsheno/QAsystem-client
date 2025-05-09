@@ -1,6 +1,7 @@
 {
   "usingComponents": {
     "searchPicker": "/components/searchPicker/searchPicker",
-    "towxml":"/towxml/towxml"
+    "towxml": "/towxml/towxml",
+    "f6-canvas": "@antv/f6-wx/canvas/canvas"
   }
 }

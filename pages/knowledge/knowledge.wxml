@@ -4,13 +4,6 @@
     <input class="search-input" placeholder="搜索知识点/文件/课程" bindinput="onSearchInput" value="{{searchKeyword}}" />
     <button class="upload-btn" bindtap="showUploadPanel">+ 上传</button>
   </view>
-  <!--<view class="kg-container" wx:if="{{showKnowledgeGraph}}">
-    <canvas class="kg-canvas" canvas-id="knowledgeCanvas"></canvas>
-    <view class="kg-controls">
-      <button bindtap="toggleGraphLayout">切换布局</button>
-      <button bindtap="resetGraphView">重置视图</button>
-    </view>
-  </view>-->
   <view class="file-box">
     <block wx:for="{{filteredFiles}}" wx:key="index">
       <view class="file-card" bind:longpress="deleteFile">

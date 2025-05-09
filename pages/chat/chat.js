@@ -1,7 +1,28 @@
 // pages/chat/chat.js
 import { getCourses } from '../../api/course';
 import getModelResponse from '../../api/chat.js';
+import F6 from '@antv/f6-wx';
+import force from '@antv/f6-wx/extends/layout/forceLayout';
+import config from '../../utils/config'
 const app = getApp();
+
+function transformGraphData(graphData) {
+  return {
+    nodes: (graphData.nodes || []).map(node => ({
+      id: node.knowledgeId,
+      label: node.name,
+      alias: node.alias || '',
+      definition: node.definition || '',
+      image: node.image || ''
+    })),
+    edges: (graphData.links || []).map(link => ({
+      source: link.source,
+      target: link.target,
+      id: `${link.source}_${link.target}`
+    }))
+  };
+}
+
 Page({
 
   /**
@@ -18,7 +39,99 @@ Page({
     selectedCourseid: null,
     selectedCoursename: null,
     isQuote: false,
-    showRelatedIndex: -1
+    showRelatedIndex: -1,
+    activeTab: 'knowledgeBase',
+    kb_context: null,
+    width: 300,
+    height: 450,
+    pixelRatio: 1,
+    forceMini: false,
+    graph_data: null,
+    selectedNode: null
+  },
+  handleCanvasInit(event) {
+    const { ctx, canvas, renderer } = event.detail;
+    this.isCanvasInit = true;
+    this.ctx = ctx;
+    this.renderer = renderer;
+    this.canvas = canvas;
+    this.updateChart();
+  },
+  handleTouch(e) {
+    this.graph && this.graph.emitEvent(e.detail);
+  },
+  updateChart() {
+    const { canvasWidth, canvasHeight, pixelRatio, graph_data } = this.data;
+    const data = graph_data;
+    this.graph = new F6.Graph({
+      container: this.canvas,
+      context: this.ctx,
+      renderer: this.renderer,
+      width: canvasWidth,
+      height: canvasHeight,
+      pixelRatio,
+      modes: {
+        default: ['drag-canvas', 'drag-node', 'zoom-canvas'],
+      },
+      layout: {
+        type: 'force',
+        linkDistance: 60,
+        preventOverlap: true,
+        nodeStrength: -30,
+        edgeStrength: 0.1,
+        nodeSize: 50,
+        onLayoutEnd: () => {
+          console.log('force layout done');
+        }
+      },
+      fitCenter: true,
+      defaultNode: {
+        size: 50,
+      },
+      nodeStateStyles: {
+        tap: {
+          stroke: '#00BFFF',
+          lineWidth: 2
+        }
+      }
+    });
+    this.graph.data(data);
+    this.graph.render();
+    this.graph.fitView();
+    this.graph.on('node:tap', (e) => {
+      const tapNodes = this.graph.findAllByState('node', 'tap');
+      tapNodes.forEach((cn) => {
+        this.graph.setItemState(cn, 'tap', false);
+      });
+      const nodeItem = e.item;
+      this.graph.setItemState(nodeItem, 'tap', true);
+      const model = nodeItem.getModel();
+      this.setData({
+        selectedNode: {
+          name: model.label,
+          alias: model.alias,
+          definition: model.definition,
+          image: model.image
+        }
+      });
+    });
+  },
+  switchTab(e) {
+    const tab = e.currentTarget.dataset.tab;
+    this.setData({
+      activeTab: tab
+    });
+  },
+  handlePreviewImage() {
+    const imageUrl = config.url_sql + this.data.selectedNode.image.replace(/^.*(\/images\/.*)$/, '$1');
+    if (imageUrl) {
+      wx.previewImage({
+        urls: [imageUrl],
+        current: imageUrl
+      });
+    }
+  },  
+  stopPropagation() {
   },
   showCoursePicker(e) {
     this.setData({
@@ -99,9 +212,14 @@ Page({
     });
   },
   onQuote(e) {
+    const index = e.currentTarget.dataset.index;
+    const kb_context = this.data.messages[index].kb_context;
+    const graph_data = transformGraphData(this.data.messages[index].graph);
     this.setData({
-      isQuote: true
-    })
+      isQuote: true,
+      kb_context,
+      graph_data
+    });
   },
   navigateToQuestion(e) {
     const knowledgeid = e.currentTarget.dataset.knowledgeid;
@@ -111,7 +229,10 @@ Page({
   },
   closeContext() {
     this.setData({
-      isQuote: false
+      isQuote: false,
+      activeTab: "knowledgeBase",
+      kb_context: null,
+      selectedNode: null
     })
   },
   onRefresh(e) {
@@ -193,6 +314,13 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad(options) {
+    F6.registerLayout('force', force);
+    const { windowWidth, windowHeight, pixelRatio } = wx.getSystemInfoSync();
+    this.setData({
+      canvasWidth: windowWidth / 1.3,
+      canvasHeight: windowHeight / 2.4,
+      pixelRatio,
+    });
     getCourses()
     .then(res => {
       this.setData({
